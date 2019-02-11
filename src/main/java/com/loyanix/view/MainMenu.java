@@ -8,6 +8,9 @@ public class MainMenu {
 
     private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
+    private final AdminMenu adminMenu = new AdminMenu();
+    private final ClientMenu clientMenu = new ClientMenu();
+
     public void showMenu() throws IOException {
 
         boolean isRuning = true;
@@ -21,7 +24,7 @@ public class MainMenu {
             switch (bufferedReader.readLine()) {
 
                 case "1":
-                    System.out.println("Show Admin menu");
+                    adminMenu.show();
                     break;
                 case "2":
                     System.out.println("Show Client menu");
@@ -31,7 +34,7 @@ public class MainMenu {
                     break;
                 default:
                     System.out.println("Wrong symbol");
-
+                    break;
             }
         }
     }
