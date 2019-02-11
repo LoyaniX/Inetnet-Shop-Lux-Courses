@@ -1,5 +1,8 @@
 package com.loyanix.view;
 
+import com.loyanix.services.ClientService;
+import com.loyanix.services.impl.ClientServiceImpl;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +10,7 @@ import java.io.InputStreamReader;
 public class AdminMenu {
 
     private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private final ClientService clientService = new ClientServiceImpl();
 
     public void show() throws IOException {
 
@@ -16,7 +20,7 @@ public class AdminMenu {
 
             switch (bufferedReader.readLine()) {
                 case "1":
-                    System.out.println("Add client");
+                    createClient();
                     break;
                 case "2":
                     System.out.println("Modify client");
@@ -34,6 +38,16 @@ public class AdminMenu {
                     break;
             }
         }
+    }
+
+    private void createClient() throws IOException {
+        System.out.println("Input Name of Client");
+        String name = bufferedReader.readLine();
+        System.out.println("Input SurName of Client");
+        String surName = bufferedReader.readLine();
+        System.out.println("Input Phone number of Client");
+        String phone = bufferedReader.readLine();
+        clientService.createClient(name, surName, phone);
     }
 
     private void showMenu() {
