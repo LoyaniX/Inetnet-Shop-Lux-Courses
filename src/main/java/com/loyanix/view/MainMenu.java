@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 public class MainMenu {
 
+    private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
     public void showMenu() throws IOException {
 
@@ -16,9 +17,6 @@ public class MainMenu {
             System.out.println("1. Admin");
             System.out.println("2. Client");
             System.out.println("0. Exit");
-
-            InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             switch (bufferedReader.readLine()) {
 
