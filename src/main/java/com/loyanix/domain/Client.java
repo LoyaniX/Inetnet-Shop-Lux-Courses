@@ -22,6 +22,12 @@ public class Client {
         this.phone = phone;
     }
 
+    public Client(String name, String surname, String phone) {
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+    }
+
     public long getId() {
         return id;
     }

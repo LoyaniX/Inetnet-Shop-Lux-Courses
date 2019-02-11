@@ -2,6 +2,13 @@ package com.loyanix.services;
 
 public interface ClientService {
 
-    void createClient();
+    /**
+     * Add JAVA_DOC
+     */
+    void createClient(String name, String surname, String phone);
+
+    /**
+     * Add JAVA_DOC
+     */
     void deleteClient();
 }
