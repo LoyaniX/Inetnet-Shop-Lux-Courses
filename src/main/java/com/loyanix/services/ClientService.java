@@ -1,5 +1,9 @@
 package com.loyanix.services;
 
+import com.loyanix.domain.Client;
+
+import java.util.Map;
+
 public interface ClientService {
 
     /**
@@ -10,5 +14,9 @@ public interface ClientService {
     /**
      * Add JAVA_DOC
      */
-    void deleteClient();
+    void create(String name, String surname, String phone);
+    void getById(Long id);
+    void update(Long id, String name, String surname, String phone);
+    void delete(Long id);
+    Map<Long, Client> findAll();
 }

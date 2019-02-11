@@ -22,17 +22,10 @@ public class AdminMenu {
                 case "1":
                     createClient();
                     break;
-                case "2":
-                    System.out.println("Modify client");
-                    break;
-                case "3":
-                    System.out.println("Add client");
-                    break;
                 case "0":
                     return;
                 case "9":
-                    //TODO: exit from app
-                    return;
+                    System.exit(0);
                 default:
                     System.out.println("Wrong symbol");
                     break;
@@ -55,6 +48,10 @@ public class AdminMenu {
         System.out.println("2. Modify Client");
         System.out.println("3. Remove Client");
         System.out.println("4. List of Clients");
+        System.out.println("5. Add User");
+        System.out.println("6. Modify User");
+        System.out.println("7. Remove User");
+        System.out.println("8. List of User");
         System.out.println("9. Return");
         System.out.println("0. Exit");
     }

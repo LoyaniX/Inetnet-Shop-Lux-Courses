@@ -1,6 +1,5 @@
 package com.loyanix.domain;
 
-import java.util.Objects;
 
 public class Client {
 
