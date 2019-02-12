@@ -1,9 +1,11 @@
 package com.loyanix.services.impl;
 
 import com.loyanix.dao.ProductDao;
+import com.loyanix.dao.impl.ProductDaoImpl;
 import com.loyanix.domain.Product;
 import com.loyanix.services.ProductService;
 import com.loyanix.services.converter.ProductConverter;
+import com.loyanix.services.converter.impl.ProductConverterImpl;
 import com.loyanix.services.dto.ProductDto;
 
 import java.util.ArrayList;
@@ -11,8 +13,8 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private ProductDao productDao;
-    private ProductConverter productConverter;
+    private ProductDao productDao = new ProductDaoImpl();
+    private ProductConverter productConverter = new ProductConverterImpl();
 
     public ProductServiceImpl() {
     }

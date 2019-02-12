@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class ProductDto {
 
+    private Long id;
     private String name;
     private BigDecimal price;
     private String gender;
@@ -19,6 +20,23 @@ public class ProductDto {
         this.gender = gender;
         this.size = size;
         this.quantity = quantity;
+    }
+
+    public ProductDto(Long id, String name, BigDecimal price, String gender, String size, Integer quantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.gender = gender;
+        this.size = size;
+        this.quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,7 +82,8 @@ public class ProductDto {
     @Override
     public String toString() {
         return "ProductDto{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", price=" + price +
                 ", gender='" + gender + '\'' +
                 ", size='" + size + '\'' +

@@ -12,9 +12,11 @@ import java.util.Map;
 public class ProductDaoImpl implements ProductDao {
 
     private Map<Long, Product> productMap = new HashMap<>();
+    private Long id = 1L;
 
     @Override
     public void create(Product product) {
+        product.setId(id++);
         productMap.put(product.getId(), product);
     }
 

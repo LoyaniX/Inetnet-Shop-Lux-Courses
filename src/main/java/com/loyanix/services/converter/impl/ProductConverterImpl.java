@@ -13,7 +13,7 @@ public class ProductConverterImpl implements ProductConverter {
 
     @Override
     public ProductDto toDto(Product product) {
-        return new ProductDto(product.getName(), product.getPrice(), product.getGender(),
+        return new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getGender(),
                 product.getSize(), product.getQuantity());
     }
 }
