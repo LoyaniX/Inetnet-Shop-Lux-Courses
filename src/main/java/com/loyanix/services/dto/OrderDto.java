@@ -1,22 +1,22 @@
-package com.loyanix.domain;
+package com.loyanix.services.dto;
 
 import java.util.List;
 
-public class Order {
+public class OrderDto {
 
     private long id;
-    private Client client;
-    private List<Product> products;
+    private ClientDto client;
+    private List<ProductDto> products;
 
-    public Order() {
+    public OrderDto() {
     }
 
-    public Order(Client client, List<Product> products) {
+    public OrderDto(ClientDto client, List<ProductDto> products) {
         this.client = client;
         this.products = products;
     }
 
-    public Order(long id, Client client, List<Product> products) {
+    public OrderDto(long id, ClientDto client, List<ProductDto> products) {
         this.id = id;
         this.client = client;
         this.products = products;
@@ -30,25 +30,25 @@ public class Order {
         this.id = id;
     }
 
-    public Client getClient() {
+    public ClientDto getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(ClientDto client) {
         this.client = client;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductDto> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductDto> products) {
         this.products = products;
     }
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "OrderDto{" +
                 "id=" + id +
                 ", client=" + client +
                 ", products=" + products +
