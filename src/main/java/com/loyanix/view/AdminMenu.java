@@ -56,6 +56,13 @@ public class AdminMenu {
         }
     }
 
+    private void addExempleData(){
+        productService.create(new ProductDto("Tesla", new BigDecimal(123456789), "unisex", "Model X", 12));
+        productService.create(new ProductDto("Tesla", new BigDecimal(2412312), "male", "Model S", 123));
+        productService.create(new ProductDto("Iphone", new BigDecimal(1000), "unisex", "Xs max", 56));
+        productService.create(new ProductDto("T-short", new BigDecimal(12), "female", "xs", 120));
+    }
+
     private void deleteProduct() throws IOException {
         System.out.println("Enter ID to delete:");
         Long id = Long.parseLong(bufferedReader.readLine());
@@ -75,7 +82,22 @@ public class AdminMenu {
         return productService.getById(id);
     }
 
-//    private ClientDto showClient() throws IOException {
+    private ProductDto createProduct() throws IOException {
+        System.out.println("Input Name of Product");
+        String name = bufferedReader.readLine();
+        System.out.println("Input Price of Product");
+        Long priceLong = Long.parseLong(bufferedReader.readLine());
+        BigDecimal price = new BigDecimal(priceLong);
+        System.out.println("Input Gender of Product");
+        String gender = bufferedReader.readLine();
+        System.out.println("Input Size of Product");
+        String size = bufferedReader.readLine();
+        System.out.println("Input Quantity of Product");
+        int quantity = Integer.parseInt(bufferedReader.readLine());
+        return new ProductDto(name, price, gender, size, quantity);
+    }
+
+    //    private ClientDto showClient() throws IOException {
 //        System.out.println("Enter ID to show:");
 //        Long id = Long.parseLong(bufferedReader.readLine());
 //        return clientService.getById(id);
@@ -91,21 +113,6 @@ public class AdminMenu {
             default:
                 System.out.println("Wrong Entity");
         }
-    }
-
-    private ProductDto createProduct() throws IOException {
-        System.out.println("Input Name of Product");
-        String name = bufferedReader.readLine();
-        System.out.println("Input Price of Product");
-        Long priceLong = Long.parseLong(bufferedReader.readLine());
-        BigDecimal price = new BigDecimal(priceLong);
-        System.out.println("Input Gender of Product");
-        String gender = bufferedReader.readLine();
-        System.out.println("Input Size of Product");
-        String size = bufferedReader.readLine();
-        System.out.println("Input Quantity of Product");
-        int quantity = Integer.parseInt(bufferedReader.readLine());
-        return new ProductDto(name, price, gender, size, quantity);
     }
 
     private void createClient() throws IOException {
