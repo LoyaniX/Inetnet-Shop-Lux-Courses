@@ -4,7 +4,9 @@ import com.loyanix.dao.ProductDao;
 import com.loyanix.domain.Client;
 import com.loyanix.domain.Product;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductDaoImpl implements ProductDao {
@@ -17,8 +19,8 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void getById(Long id) {
-        productMap.get(id);
+    public Product getById(Long id) {
+        return productMap.get(id);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Map<Long, Product> findAll() {
-        return productMap;
+    public List<Product> findAll() {
+        return new ArrayList<>(productMap.values());
     }
 }
