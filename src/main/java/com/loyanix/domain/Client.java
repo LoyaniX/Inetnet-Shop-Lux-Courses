@@ -1,38 +1,31 @@
 package com.loyanix.domain;
 
-
 public class Client {
 
-    private long id;
+    private Long id;
     private String name;
     private String surname;
-    private int age;
-    private String emeil;
+    private Integer age;
+    private String email;
     private String phone;
 
     public Client() {
     }
 
-    public Client(long id, String name, String surname, int age, String emeil, String phone) {
+    public Client(Long id, String name, String surname, Integer age, String email, String phone) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.emeil = emeil;
+        this.email = email;
         this.phone = phone;
     }
 
-    public Client(String name, String surname, String phone) {
-        this.name = name;
-        this.surname = surname;
-        this.phone = phone;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,20 +45,20 @@ public class Client {
         this.surname = surname;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public String getEmeil() {
-        return emeil;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmeil(String emeil) {
-        this.emeil = emeil;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhone() {
@@ -83,7 +76,7 @@ public class Client {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
-                ", emeil='" + emeil + '\'' +
+                ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }

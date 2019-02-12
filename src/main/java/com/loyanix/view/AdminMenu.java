@@ -1,6 +1,5 @@
 package com.loyanix.view;
 
-import com.loyanix.domain.Client;
 import com.loyanix.services.ClientService;
 import com.loyanix.services.ProductService;
 import com.loyanix.services.dto.ClientDto;
@@ -12,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.util.List;
 
 public class AdminMenu {
 
@@ -22,13 +20,27 @@ public class AdminMenu {
 
     public void show() throws IOException {
 
+        addExampleData();
+
         while (true) {
 
             showMenu();
 
             switch (bufferedReader.readLine()) {
                 case "1":
-                    createClient();
+                    clientService.create(createClient());
+                    break;
+                case "2":
+                    updateClient();
+                    break;
+                case "3":
+                    deleteClient();
+                    break;
+                case "4":
+                    System.out.println(showClient());
+                    break;
+                case "5":
+                    getListOfEntities("clients");
                     break;
                 case "6":
                     productService.create(createProduct());
@@ -56,11 +68,16 @@ public class AdminMenu {
         }
     }
 
-    private void addExempleData(){
+    private void addExampleData() {
         productService.create(new ProductDto("Tesla", new BigDecimal(123456789), "unisex", "Model X", 12));
         productService.create(new ProductDto("Tesla", new BigDecimal(2412312), "male", "Model S", 123));
         productService.create(new ProductDto("Iphone", new BigDecimal(1000), "unisex", "Xs max", 56));
         productService.create(new ProductDto("T-short", new BigDecimal(12), "female", "xs", 120));
+
+        clientService.create(new ClientDto("Max", "Loyan", 21, "loyanmaksim@gmail.com", ""));
+        clientService.create(new ClientDto("Maksim", "Loyan", 25, "", ""));
+        clientService.create(new ClientDto("John", "Shelvy", 12, "", "0995696886"));
+        clientService.create(new ClientDto("Marina", "Kayl", 65, "loyanmaksim@gmail.com", "0995696886"));
     }
 
     private void deleteProduct() throws IOException {
@@ -97,12 +114,6 @@ public class AdminMenu {
         return new ProductDto(name, price, gender, size, quantity);
     }
 
-    //    private ClientDto showClient() throws IOException {
-//        System.out.println("Enter ID to show:");
-//        Long id = Long.parseLong(bufferedReader.readLine());
-//        return clientService.getById(id);
-//    }
-
     private void getListOfEntities(String entity) {
         switch (entity.toLowerCase()) {
             case "products":
@@ -110,19 +121,47 @@ public class AdminMenu {
                     System.out.println(productDto);
                 }
                 break;
+            case "clients":
+                for (ClientDto clientDtoDto : clientService.findAll()) {
+                    System.out.println(clientDtoDto);
+                }
+                break;
             default:
                 System.out.println("Wrong Entity");
         }
     }
 
-    private void createClient() throws IOException {
+    private ClientDto createClient() throws IOException {
         System.out.println("Input Name of Client");
         String name = bufferedReader.readLine();
         System.out.println("Input SurName of Client");
         String surName = bufferedReader.readLine();
+        System.out.println("Input Age of Client");
+        Integer age = Integer.parseInt(bufferedReader.readLine());
+        System.out.println("Input Email of Client");
+        String email = bufferedReader.readLine();
         System.out.println("Input Phone number of Client");
         String phone = bufferedReader.readLine();
-        //    clientService.createClient(name, surName, phone);
+        return new ClientDto(name, surName, age, email, phone);
+    }
+
+    private ClientDto showClient() throws IOException {
+        System.out.println("Enter ID to show:");
+        Long id = Long.parseLong(bufferedReader.readLine());
+        return clientService.getById(id);
+    }
+
+    private void deleteClient() throws IOException {
+        System.out.println("Enter ID to delete:");
+        Long id = Long.parseLong(bufferedReader.readLine());
+        clientService.delete(id);
+    }
+
+    private void updateClient() throws IOException {
+        System.out.println("Enter ID to update:");
+        Long id = Long.parseLong(bufferedReader.readLine());
+        ClientDto clientToUpdate = createClient();
+        clientService.update(id, clientToUpdate);
     }
 
     private void showMenu() {

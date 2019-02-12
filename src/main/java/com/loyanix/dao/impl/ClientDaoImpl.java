@@ -3,26 +3,31 @@ package com.loyanix.dao.impl;
 import com.loyanix.dao.ClientDao;
 import com.loyanix.domain.Client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClientDaoImpl implements ClientDao {
 
     private Map<Long, Client> clientMap = new HashMap<>();
+    private Long id = 1L;
 
     @Override
     public void create(Client client) {
+        client.setId(id++);
         clientMap.put(client.getId(), client);
     }
 
     @Override
-    public void getById(Long id) {
-        clientMap.get(id);
+    public Client getById(Long id) {
+        return clientMap.get(id);
     }
 
     @Override
     public void update(Long id, Client client) {
-        clientMap.put(id, client);
+        client.setId(id);
+        clientMap.put(client.getId(), client);
     }
 
     @Override
@@ -31,7 +36,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public Map<Long, Client> findAll() {
-        return clientMap;
+    public List<Client> findAll() {
+        return new ArrayList<>(clientMap.values());
     }
 }

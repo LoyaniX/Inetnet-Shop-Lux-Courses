@@ -2,14 +2,18 @@ package com.loyanix.dao;
 
 import com.loyanix.domain.Client;
 
-import java.util.Map;
+import java.util.List;
 
 public interface ClientDao {
 
     void create(Client client);
-    void getById(Long id);
+
+    Client getById(Long id);
+
     void update(Long id, Client client);
+
     void delete(Long id);
-    Map<Long, Client> findAll();
+
+    List<Client> findAll();
 
 }
