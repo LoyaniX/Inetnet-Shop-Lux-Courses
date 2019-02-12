@@ -1,5 +1,8 @@
 package com.loyanix.view;
 
+import com.loyanix.services.authorization.AdminAuth;
+import com.loyanix.services.authorization.impl.AdminAuthImpl;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +13,7 @@ public class MainMenu {
 
     private final AdminMenu adminMenu = new AdminMenu();
     private final ClientMenu clientMenu = new ClientMenu();
+    private final AdminAuth adminAuth = new AdminAuthImpl();
 
     public void showMenu() throws IOException {
 
@@ -24,7 +28,12 @@ public class MainMenu {
             switch (bufferedReader.readLine()) {
 
                 case "1":
-                    adminMenu.show();
+                    System.out.println("Enter admin password to go to admin menu:");
+                    if (adminAuth.authorization(bufferedReader.readLine())){
+                        adminMenu.show();
+                    } else {
+                        System.out.println("\nWrong password\n");
+                    }
                     break;
                 case "2":
                     System.out.println("Show Client menu");
