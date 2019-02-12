@@ -1,7 +1,9 @@
 package com.loyanix.view;
 
+import com.loyanix.domain.Client;
 import com.loyanix.services.ClientService;
 import com.loyanix.services.ProductService;
+import com.loyanix.services.dto.ClientDto;
 import com.loyanix.services.dto.ProductDto;
 import com.loyanix.services.impl.ClientServiceImpl;
 import com.loyanix.services.impl.ProductServiceImpl;
@@ -28,15 +30,24 @@ public class AdminMenu {
                 case "1":
                     createClient();
                     break;
-                case "5":
-                    createProduct();
+                case "6":
+                    productService.create(createProduct());
+                    break;
+                case "7":
+                    updateProduct();
                     break;
                 case "8":
+                    deleteProduct();
+                    break;
+                case "9":
+                    System.out.println(showProduct());
+                    break;
+                case "10":
                     getListOfEntities("products");
                     break;
-                case "0":
+                case "11":
                     return;
-                case "9":
+                case "0":
                     System.exit(0);
                 default:
                     System.out.println("Wrong symbol");
@@ -45,8 +56,33 @@ public class AdminMenu {
         }
     }
 
-    private void getListOfEntities(String entity){
-        switch (entity.toLowerCase()){
+    private void deleteProduct() throws IOException {
+        System.out.println("Enter ID to delete:");
+        Long id = Long.parseLong(bufferedReader.readLine());
+        productService.delete(id);
+    }
+
+    private void updateProduct() throws IOException {
+        System.out.println("Enter ID to update:");
+        Long id = Long.parseLong(bufferedReader.readLine());
+        ProductDto productToUpdate = createProduct();
+        productService.update(id, productToUpdate);
+    }
+
+    private ProductDto showProduct() throws IOException {
+        System.out.println("Enter ID to show:");
+        Long id = Long.parseLong(bufferedReader.readLine());
+        return productService.getById(id);
+    }
+
+//    private ClientDto showClient() throws IOException {
+//        System.out.println("Enter ID to show:");
+//        Long id = Long.parseLong(bufferedReader.readLine());
+//        return clientService.getById(id);
+//    }
+
+    private void getListOfEntities(String entity) {
+        switch (entity.toLowerCase()) {
             case "products":
                 for (ProductDto productDto : productService.findAll()) {
                     System.out.println(productDto);
@@ -56,7 +92,8 @@ public class AdminMenu {
                 System.out.println("Wrong Entity");
         }
     }
-    private void createProduct() throws IOException {
+
+    private ProductDto createProduct() throws IOException {
         System.out.println("Input Name of Product");
         String name = bufferedReader.readLine();
         System.out.println("Input Price of Product");
@@ -68,8 +105,7 @@ public class AdminMenu {
         String size = bufferedReader.readLine();
         System.out.println("Input Quantity of Product");
         int quantity = Integer.parseInt(bufferedReader.readLine());
-        ProductDto productDto = new ProductDto(name, price, gender, size, quantity);
-        productService.create(productDto);
+        return new ProductDto(name, price, gender, size, quantity);
     }
 
     private void createClient() throws IOException {
@@ -79,19 +115,21 @@ public class AdminMenu {
         String surName = bufferedReader.readLine();
         System.out.println("Input Phone number of Client");
         String phone = bufferedReader.readLine();
-    //    clientService.createClient(name, surName, phone);
+        //    clientService.createClient(name, surName, phone);
     }
 
     private void showMenu() {
         System.out.println("1. Add Client");
         System.out.println("2. Modify Client");
         System.out.println("3. Remove Client");
-        System.out.println("4. List of Clients");
-        System.out.println("5. Add Product");
-        System.out.println("6. Modify Product");
-        System.out.println("7. Remove Product");
-        System.out.println("8. List of Product");
-        System.out.println("9. Return");
+        System.out.println("4. Show Client");
+        System.out.println("5. List of Clients");
+        System.out.println("6. Add Product");
+        System.out.println("7. Modify Product");
+        System.out.println("8. Remove Product");
+        System.out.println("9. Show Product");
+        System.out.println("10. List of Product");
+        System.out.println("11. Return");
         System.out.println("0. Exit");
     }
 }

@@ -27,7 +27,8 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void update(Long id, Product product) {
-        productMap.replace(id, product);
+        product.setId(id);
+        productMap.replace(product.getId(), product);
     }
 
     @Override
