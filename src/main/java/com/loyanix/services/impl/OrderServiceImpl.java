@@ -7,7 +7,9 @@ import com.loyanix.services.OrderService;
 import com.loyanix.services.converter.OrderCoverter;
 import com.loyanix.services.converter.impl.OrderConverterImpl;
 import com.loyanix.services.dto.OrderDto;
+import com.loyanix.services.dto.ProductDto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void create(OrderDto orderDto) {
         orderDto.setDateOfCreate(new Date());
+        orderDto.setOrderPrice(countCost(orderDto));
         orderDao.create(orderCoverter.toEntity(orderDto));
     }
 
@@ -57,5 +60,14 @@ public class OrderServiceImpl implements OrderService {
             orderDtos.add(orderCoverter.toDto(order));
         }
         return orderDtos;
+    }
+
+    private BigDecimal countCost(OrderDto orderDto) {
+        BigDecimal orderCost = new BigDecimal(0);
+        List<ProductDto> productDtos = orderDto.getProducts();
+        for (ProductDto productDto : productDtos) {
+            orderCost = orderCost.add(productDto.getPrice().multiply(BigDecimal.valueOf(productDto.getQuantity())));
+        }
+        return orderCost;
     }
 }
