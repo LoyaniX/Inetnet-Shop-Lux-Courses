@@ -1,49 +1,76 @@
 package com.loyanix.services.dto;
 
+import com.loyanix.domain.Client;
+import com.loyanix.domain.Product;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDto {
 
-    private long id;
-    private ClientDto client;
-    private List<ProductDto> products;
+    private Long id;
+    private Client client;
+    private List<Product> products;
+    private BigDecimal orderPrice;
+    private Date dateOfCreate;
 
     public OrderDto() {
     }
 
-    public OrderDto(ClientDto client, List<ProductDto> products) {
+    public OrderDto(Client client, List<Product> products, BigDecimal orderPrice, Date dateOfCreate) {
         this.client = client;
         this.products = products;
+        this.orderPrice = orderPrice;
+        this.dateOfCreate = dateOfCreate;
     }
 
-    public OrderDto(long id, ClientDto client, List<ProductDto> products) {
+    public OrderDto(Long id, Client client, List<Product> products, BigDecimal orderPrice, Date dateOfCreate) {
         this.id = id;
         this.client = client;
         this.products = products;
+        this.orderPrice = orderPrice;
+        this.dateOfCreate = dateOfCreate;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public ClientDto getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(ClientDto client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 
-    public List<ProductDto> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductDto> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public BigDecimal getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(BigDecimal orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public Date getDateOfCreate() {
+        return dateOfCreate;
+    }
+
+    public void setDateOfCreate(Date dateOfCreate) {
+        this.dateOfCreate = dateOfCreate;
     }
 
     @Override
@@ -52,6 +79,8 @@ public class OrderDto {
                 "id=" + id +
                 ", client=" + client +
                 ", products=" + products +
+                ", orderPrice=" + orderPrice +
+                ", dateOfCreate=" + dateOfCreate +
                 '}';
     }
 }

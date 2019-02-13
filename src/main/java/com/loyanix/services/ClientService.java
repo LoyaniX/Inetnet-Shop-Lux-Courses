@@ -7,9 +7,6 @@ import java.util.List;
 
 public interface ClientService {
 
-    /**
-     * Add JAVA_DOC
-     */
     void create(ClientDto clientDto);
 
     ClientDto getById(Long id);
