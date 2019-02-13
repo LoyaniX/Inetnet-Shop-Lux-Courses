@@ -1,8 +1,5 @@
 package com.loyanix.services.dto;
 
-import com.loyanix.domain.Client;
-import com.loyanix.domain.Product;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -10,22 +7,22 @@ import java.util.List;
 public class OrderDto {
 
     private Long id;
-    private Client client;
-    private List<Product> products;
+    private ClientDto client;
+    private List<ProductDto> products;
     private BigDecimal orderPrice;
     private Date dateOfCreate;
 
     public OrderDto() {
     }
 
-    public OrderDto(Client client, List<Product> products, BigDecimal orderPrice, Date dateOfCreate) {
+    public OrderDto(ClientDto client, List<ProductDto> products, BigDecimal orderPrice, Date dateOfCreate) {
         this.client = client;
         this.products = products;
         this.orderPrice = orderPrice;
         this.dateOfCreate = dateOfCreate;
     }
 
-    public OrderDto(Long id, Client client, List<Product> products, BigDecimal orderPrice, Date dateOfCreate) {
+    public OrderDto(Long id, ClientDto client, List<ProductDto> products, BigDecimal orderPrice, Date dateOfCreate) {
         this.id = id;
         this.client = client;
         this.products = products;
@@ -41,19 +38,19 @@ public class OrderDto {
         this.id = id;
     }
 
-    public Client getClient() {
+    public ClientDto getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(ClientDto client) {
         this.client = client;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductDto> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductDto> products) {
         this.products = products;
     }
 
