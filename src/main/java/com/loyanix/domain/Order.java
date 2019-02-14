@@ -12,9 +12,6 @@ public class Order {
     private BigDecimal orderPrice;
     private Date dateOfCreate;
 
-    public Order() {
-    }
-
     public Order(Long id, Client client, List<Product> products, BigDecimal orderPrice, Date dateOfCreate) {
         this.id = id;
         this.client = client;

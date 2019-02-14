@@ -16,14 +16,6 @@ public class ClientServiceImpl implements ClientService {
     private ClientDao clientDao = new ClientDaoImpl();
     private ClientConverter clientConverter = new ClientConverterImpl();
 
-    public ClientServiceImpl() {
-    }
-
-    public ClientServiceImpl(ClientDao clientDao, ClientConverter clientConverter) {
-        this.clientDao = clientDao;
-        this.clientConverter = clientConverter;
-    }
-
     @Override
     public void create(ClientDto clientDto) {
         clientDao.create(clientConverter.toEntity(clientDto));
@@ -31,7 +23,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto getById(Long id) {
-        return clientConverter.toDto(clientDao.getById(id));
+        try {
+            return clientConverter.toDto(clientDao.getById(id));
+        } catch (NullPointerException e) {
+            System.out.println("Client with id " + id + " is absent");
+            e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -41,7 +39,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void delete(Long id) {
-        clientDao.delete(id);
+        try {
+            clientDao.delete(id);
+        } catch (NullPointerException e) {
+            System.out.println("Client with id " + id + " is absent");
+            e.getMessage();
+        }
     }
 
     @Override

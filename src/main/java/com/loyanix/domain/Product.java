@@ -11,9 +11,6 @@ public class Product {
     private String size;
     private Integer quantity;
 
-    public Product() {
-    }
-
     public Product(Long id, String name, BigDecimal price, String gender, String size, Integer quantity) {
         this.id = id;
         this.name = name;

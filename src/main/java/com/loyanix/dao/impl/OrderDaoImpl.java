@@ -11,7 +11,7 @@ import java.util.Map;
 public class OrderDaoImpl implements OrderDao {
 
     private Map<Long, Order> orderMap = new HashMap<>();
-    private Long id = 1L;
+    private long id = 1L;
 
     @Override
     public void create(Order order) {
@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order getById(Long id) {
+    public Order getById(Long id) throws NullPointerException {
         return orderMap.get(id);
     }
 
@@ -31,7 +31,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws NullPointerException {
         orderMap.remove(id);
     }
 
@@ -41,7 +41,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllOfClient(Long usedId) {
+    public List<Order> findAllOfClient(Long usedId) throws NullPointerException {
         List<Order> orderList = findAll();
         List<Order> ordersOfClient = new ArrayList<>();
         for (Order order : orderList) {

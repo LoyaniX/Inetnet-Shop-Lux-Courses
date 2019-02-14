@@ -11,7 +11,7 @@ import java.util.Map;
 public class ClientDaoImpl implements ClientDao {
 
     private Map<Long, Client> clientMap = new HashMap<>();
-    private Long id = 1L;
+    private long id = 1L;
 
     @Override
     public void create(Client client) {
@@ -20,7 +20,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public Client getById(Long id) {
+    public Client getById(Long id) throws NullPointerException {
         return clientMap.get(id);
     }
 
@@ -31,7 +31,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws NullPointerException {
         clientMap.remove(id);
     }
 

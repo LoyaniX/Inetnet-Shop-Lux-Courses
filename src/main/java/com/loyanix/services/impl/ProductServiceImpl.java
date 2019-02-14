@@ -16,14 +16,6 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao = new ProductDaoImpl();
     private ProductConverter productConverter = new ProductConverterImpl();
 
-    public ProductServiceImpl() {
-    }
-
-    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter) {
-        this.productDao = productDao;
-        this.productConverter = productConverter;
-    }
-
     @Override
     public void create(ProductDto productDto) {
         productDao.create(productConverter.toEntity(productDto));
@@ -31,7 +23,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getById(Long id) {
-        return productConverter.toDto(productDao.getById(id));
+        try {
+            return productConverter.toDto(productDao.getById(id));
+        } catch (Exception e) {
+            System.out.println("Product with id " + id + " is absent");
+            e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -42,7 +40,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(Long id) {
-        productDao.delete(id);
+        try {
+            productDao.delete(id);
+        } catch (Exception e) {
+            System.out.println("Product with id " + id + " is absent");
+            e.getMessage();
+        }
     }
 
     @Override

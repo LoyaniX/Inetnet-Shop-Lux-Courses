@@ -22,13 +22,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void create(OrderDto orderDto) {
         orderDto.setDateOfCreate(new Date());
-        orderDto.setOrderPrice(countCost(orderDto));
+        orderDto.setOrderPrice(calculateCost(orderDto));
         orderDao.create(orderCoverter.toEntity(orderDto));
     }
 
     @Override
     public OrderDto getById(Long id) {
-        return orderCoverter.toDto(orderDao.getById(id));
+        try {
+            return orderCoverter.toDto(orderDao.getById(id));
+        } catch (NullPointerException e) {
+            System.out.println("User with id " + id + " is absent");
+            e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -39,7 +45,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(Long id) {
-        orderDao.delete(id);
+        try {
+            orderDao.delete(id);
+        } catch (NullPointerException e) {
+            System.out.println("Order with id " + id + " is absent");
+            e.getMessage();
+        }
     }
 
     @Override
@@ -54,16 +65,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> findAllOfClient(Long userId) {
-        List<Order> orders = orderDao.findAllOfClient(userId);
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orders) {
-            orderDtos.add(orderCoverter.toDto(order));
+        try {
+            List<Order> orders = orderDao.findAllOfClient(userId);
+            List<OrderDto> orderDtos = new ArrayList<>();
+            for (Order order : orders) {
+                orderDtos.add(orderCoverter.toDto(order));
+            }
+            return orderDtos;
+        } catch (NullPointerException e) {
+            System.out.println("User with id " + userId + " is absent");
+            e.getMessage();
+            return null;
         }
-        return orderDtos;
     }
 
-    private BigDecimal countCost(OrderDto orderDto) {
-        BigDecimal orderCost = new BigDecimal(0);
+    private BigDecimal calculateCost(OrderDto orderDto) {
+        BigDecimal orderCost = BigDecimal.ZERO;
         List<ProductDto> productDtos = orderDto.getProducts();
         for (ProductDto productDto : productDtos) {
             orderCost = orderCost.add(productDto.getPrice().multiply(BigDecimal.valueOf(productDto.getQuantity())));

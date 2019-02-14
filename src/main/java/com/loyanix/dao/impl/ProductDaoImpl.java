@@ -12,7 +12,7 @@ import java.util.Map;
 public class ProductDaoImpl implements ProductDao {
 
     private Map<Long, Product> productMap = new HashMap<>();
-    private Long id = 1L;
+    private long id = 1L;
 
     @Override
     public void create(Product product) {
@@ -21,7 +21,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Product getById(Long id) {
+    public Product getById(Long id) throws NullPointerException {
         return productMap.get(id);
     }
 
@@ -32,7 +32,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws NullPointerException {
         productMap.remove(id);
     }
 
