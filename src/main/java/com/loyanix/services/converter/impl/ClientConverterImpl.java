@@ -7,7 +7,7 @@ import com.loyanix.services.dto.ClientDto;
 public class ClientConverterImpl implements ClientConverter {
     @Override
     public Client toEntity(ClientDto clientDto) {
-        return new Client(null, clientDto.getName(), clientDto.getSurname(), clientDto.getAge(), clientDto.getEmail(), clientDto.getPhone());
+        return new Client(clientDto.getId(), clientDto.getName(), clientDto.getSurname(), clientDto.getAge(), clientDto.getEmail(), clientDto.getPhone());
     }
 
     @Override
