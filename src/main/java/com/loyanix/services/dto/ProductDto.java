@@ -11,9 +11,6 @@ public class ProductDto {
     private String size;
     private Integer quantity;
 
-    public ProductDto() {
-    }
-
     public ProductDto(String name, BigDecimal price, String gender, String size, Integer quantity) {
         this.name = name;
         this.price = price;

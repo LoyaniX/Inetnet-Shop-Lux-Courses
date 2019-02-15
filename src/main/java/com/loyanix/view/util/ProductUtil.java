@@ -54,36 +54,39 @@ public class ProductUtil {
     }
 
     public static void showProductMenu(ProductService productService) throws IOException {
-        System.out.println("1. Add Product");
-        System.out.println("2. Modify Product");
-        System.out.println("3. Remove Product");
-        System.out.println("4. Show Product");
-        System.out.println("5. List of Products");
-        System.out.println("6. Return");
-        System.out.println("0. Exit");
-        switch (bufferedReader.readLine()) {
-            case "1":
-                createProduct(productService);
-                break;
-            case "2":
-                updateProduct(productService);
-                break;
-            case "3":
-                deleteProduct(productService);
-                break;
-            case "4":
-                System.out.println(showProduct(productService));
-                break;
-            case "5":
-                getListOfProducts(productService);
-                break;
-            case "6":
-                return;
-            case "0":
-                System.exit(0);
-            default:
-                System.out.println("Wrong symbol");
-                break;
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("1. Add Product");
+            System.out.println("2. Modify Product");
+            System.out.println("3. Remove Product");
+            System.out.println("4. Show Product");
+            System.out.println("5. List of Products");
+            System.out.println("6. Return");
+            System.out.println("0. Exit");
+            switch (bufferedReader.readLine()) {
+                case "1":
+                    createProduct(productService);
+                    break;
+                case "2":
+                    updateProduct(productService);
+                    break;
+                case "3":
+                    deleteProduct(productService);
+                    break;
+                case "4":
+                    System.out.println(showProduct(productService));
+                    break;
+                case "5":
+                    getListOfProducts(productService);
+                    break;
+                case "6":
+                    return;
+                case "0":
+                    System.exit(0);
+                default:
+                    System.out.println("Wrong symbol");
+                    break;
+            }
         }
     }
 }

@@ -41,7 +41,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllOfClient(Long usedId) throws NullPointerException {
+    public List<Order> findAllByClient(Long usedId) throws NullPointerException {
         List<Order> orderList = findAll();
         List<Order> ordersOfClient = new ArrayList<>();
         for (Order order : orderList) {

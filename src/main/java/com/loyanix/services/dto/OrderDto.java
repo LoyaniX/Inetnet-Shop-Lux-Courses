@@ -12,9 +12,6 @@ public class OrderDto {
     private BigDecimal orderPrice;
     private Date dateOfCreate;
 
-    public OrderDto() {
-    }
-
     public OrderDto(ClientDto client, List<ProductDto> products, BigDecimal orderPrice, Date dateOfCreate) {
         this.client = client;
         this.products = products;

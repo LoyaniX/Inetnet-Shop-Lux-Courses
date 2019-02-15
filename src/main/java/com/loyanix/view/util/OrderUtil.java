@@ -21,8 +21,10 @@ public class OrderUtil {
         return orderService.getById(id);
     }
 
-    private static void deleteOrder() {
-
+    private static void deleteOrder(OrderService orderService) throws IOException {
+        System.out.println("Enter ID to delete:");
+        Long id = Long.parseLong(bufferedReader.readLine());
+        orderService.delete(id);
     }
 
     private static void updateOrder() {
@@ -35,33 +37,37 @@ public class OrderUtil {
     }
 
     public static void showOrderMenu(OrderService orderService) throws IOException {
-        System.out.println("1. Add Order");
-        System.out.println("2. Modify Order");
-        System.out.println("3. Remove Order");
-        System.out.println("4. Show Order");
-        System.out.println("5. List of Orders");
-        System.out.println("6. Return");
-        System.out.println("0. Exit");
-        switch (bufferedReader.readLine()) {
-            case "1":
-                break;
-            case "2":
-                break;
-            case "3":
-                break;
-            case "4":
-                System.out.println(showOrder(orderService));
-                break;
-            case "5":
-                getListOfOrders(orderService);
-                break;
-            case "6":
-                return;
-            case "0":
-                System.exit(0);
-            default:
-                System.out.println("Wrong symbol");
-                break;
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("1. Add Order");
+            System.out.println("2. Modify Order");
+            System.out.println("3. Remove Order");
+            System.out.println("4. Show Order");
+            System.out.println("5. List of Orders");
+            System.out.println("6. Return");
+            System.out.println("0. Exit");
+            switch (bufferedReader.readLine()) {
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    deleteOrder(orderService);
+                    break;
+                case "4":
+                    System.out.println(showOrder(orderService));
+                    break;
+                case "5":
+                    getListOfOrders(orderService);
+                    break;
+                case "6":
+                    return;
+                case "0":
+                    System.exit(0);
+                default:
+                    System.out.println("Wrong symbol");
+                    break;
+            }
         }
     }
 }

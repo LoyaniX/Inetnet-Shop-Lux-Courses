@@ -64,9 +64,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> findAllOfClient(Long userId) {
+    public List<OrderDto> findAllByClient(Long userId) {
         try {
-            List<Order> orders = orderDao.findAllOfClient(userId);
+            List<Order> orders = orderDao.findAllByClient(userId);
             List<OrderDto> orderDtos = new ArrayList<>();
             for (Order order : orders) {
                 orderDtos.add(orderCoverter.toDto(order));

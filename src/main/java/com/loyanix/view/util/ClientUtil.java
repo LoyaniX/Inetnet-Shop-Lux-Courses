@@ -52,36 +52,39 @@ public class ClientUtil {
     }
 
     public static void showClientMenu(ClientService clientService) throws IOException {
-        System.out.println("1. Add Client");
-        System.out.println("2. Modify Client");
-        System.out.println("3. Remove Client");
-        System.out.println("4. Show Client");
-        System.out.println("5. List of Clients");
-        System.out.println("6. Return");
-        System.out.println("0. Exit");
-        switch (bufferedReader.readLine()) {
-            case "1":
-                clientService.create(createClient());
-                break;
-            case "2":
-                updateClient(clientService);
-                break;
-            case "3":
-                deleteClient(clientService);
-                break;
-            case "4":
-                System.out.println(showClient(clientService));
-                break;
-            case "5":
-                getListOfClients(clientService);
-                break;
-            case "6":
-                return;
-            case "0":
-                System.exit(0);
-            default:
-                System.out.println("Wrong symbol");
-                break;
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("1. Add Client");
+            System.out.println("2. Modify Client");
+            System.out.println("3. Remove Client");
+            System.out.println("4. Show Client");
+            System.out.println("5. List of Clients");
+            System.out.println("6. Return");
+            System.out.println("0. Exit");
+            switch (bufferedReader.readLine()) {
+                case "1":
+                    clientService.create(createClient());
+                    break;
+                case "2":
+                    updateClient(clientService);
+                    break;
+                case "3":
+                    deleteClient(clientService);
+                    break;
+                case "4":
+                    System.out.println(showClient(clientService));
+                    break;
+                case "5":
+                    getListOfClients(clientService);
+                    break;
+                case "6":
+                    return;
+                case "0":
+                    System.exit(0);
+                default:
+                    System.out.println("Wrong symbol");
+                    break;
+            }
         }
     }
 }

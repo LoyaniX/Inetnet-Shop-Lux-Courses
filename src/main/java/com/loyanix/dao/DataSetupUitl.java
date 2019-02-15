@@ -24,7 +24,7 @@ public class DataSetupUitl {
         clientService.create(new ClientDto("John", "Shelvy", 12, "", "0995696886"));
         clientService.create(new ClientDto("Marina", "Kayl", 65, "loyanmaksim@gmail.com", "0995696886"));
 
-        List<ProductDto> exampleProducts = new ArrayList<>(productService.findAll());
+        List<ProductDto> exampleProducts = productService.findAll();
         for (long i = 1; i < 5; i++) {
             orderService.create(new OrderDto(clientService.getById(i), exampleProducts, null, null));
         }

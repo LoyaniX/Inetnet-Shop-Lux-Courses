@@ -16,5 +16,5 @@ public interface OrderDao {
 
     List<Order> findAll();
 
-    List<Order> findAllOfClient(Long userId);
+    List<Order> findAllByClient(Long userId);
 }

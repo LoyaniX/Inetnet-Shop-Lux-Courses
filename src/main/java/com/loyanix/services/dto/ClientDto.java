@@ -9,9 +9,6 @@ public class ClientDto {
     private String email;
     private String phone;
 
-    public ClientDto() {
-    }
-
     public ClientDto(String name, String surname, Integer age, String email, String phone) {
         this.name = name;
         this.surname = surname;

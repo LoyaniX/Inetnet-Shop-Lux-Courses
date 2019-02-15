@@ -16,5 +16,5 @@ public interface OrderService {
 
     List<OrderDto> findAll();
 
-    List<OrderDto> findAllOfClient(Long userId);
+    List<OrderDto> findAllByClient(Long userId);
 }
