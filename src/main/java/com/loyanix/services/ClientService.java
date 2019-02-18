@@ -1,6 +1,5 @@
 package com.loyanix.services;
 
-import com.loyanix.domain.Client;
 import com.loyanix.services.dto.ClientDto;
 
 import java.util.List;

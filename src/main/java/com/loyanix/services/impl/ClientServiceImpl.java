@@ -1,24 +1,36 @@
 package com.loyanix.services.impl;
 
 import com.loyanix.dao.ClientDao;
-import com.loyanix.dao.impl.ClientDaoImpl;
 import com.loyanix.domain.Client;
+import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.ClientService;
 import com.loyanix.services.converter.ClientConverter;
-import com.loyanix.services.converter.impl.ClientConverterImpl;
 import com.loyanix.services.dto.ClientDto;
+import com.loyanix.validator.ValidationService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientServiceImpl implements ClientService {
 
-    private ClientDao clientDao = new ClientDaoImpl();
-    private ClientConverter clientConverter = new ClientConverterImpl();
+    private ClientDao clientDao;
+    private ClientConverter clientConverter;
+    private ValidationService validationService;
+
+    public ClientServiceImpl(ClientDao clientDao, ClientConverter clientConverter, ValidationService validationService) {
+        this.clientDao = clientDao;
+        this.clientConverter = clientConverter;
+        this.validationService = validationService;
+    }
 
     @Override
     public void create(ClientDto clientDto) {
-        clientDao.create(clientConverter.toEntity(clientDto));
+        try {
+            validationService.validateAge(clientDto.getAge());
+            clientDao.create(clientConverter.toEntity(clientDto));
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

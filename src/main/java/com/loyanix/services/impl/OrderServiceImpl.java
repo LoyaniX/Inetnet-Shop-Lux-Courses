@@ -4,7 +4,7 @@ import com.loyanix.dao.OrderDao;
 import com.loyanix.dao.impl.OrderDaoImpl;
 import com.loyanix.domain.Order;
 import com.loyanix.services.OrderService;
-import com.loyanix.services.converter.OrderCoverter;
+import com.loyanix.services.converter.OrderConverter;
 import com.loyanix.services.converter.impl.OrderConverterImpl;
 import com.loyanix.services.dto.OrderDto;
 import com.loyanix.services.dto.ProductDto;
@@ -16,20 +16,25 @@ import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
 
-    private OrderDao orderDao = new OrderDaoImpl();
-    private OrderCoverter orderCoverter = new OrderConverterImpl();
+    private OrderDao orderDao;
+    private OrderConverter orderConverter;
+
+    public OrderServiceImpl(OrderDao orderDao, OrderConverter orderConverter) {
+        this.orderDao = orderDao;
+        this.orderConverter = orderConverter;
+    }
 
     @Override
     public void create(OrderDto orderDto) {
         orderDto.setDateOfCreate(new Date());
         orderDto.setOrderPrice(calculateCost(orderDto));
-        orderDao.create(orderCoverter.toEntity(orderDto));
+        orderDao.create(orderConverter.toEntity(orderDto));
     }
 
     @Override
     public OrderDto getById(Long id) {
         try {
-            return orderCoverter.toDto(orderDao.getById(id));
+            return orderConverter.toDto(orderDao.getById(id));
         } catch (NullPointerException e) {
             System.out.println("User with id " + id + " is absent");
             e.getMessage();
@@ -40,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void update(Long id, OrderDto orderDto) {
         orderDto.setDateOfCreate(new Date());
-        orderDao.update(id, orderCoverter.toEntity(orderDto));
+        orderDao.update(id, orderConverter.toEntity(orderDto));
     }
 
     @Override
@@ -58,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderDao.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : orders) {
-            orderDtos.add(orderCoverter.toDto(order));
+            orderDtos.add(orderConverter.toDto(order));
         }
         return orderDtos;
     }
@@ -69,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
             List<Order> orders = orderDao.findAllByClient(userId);
             List<OrderDto> orderDtos = new ArrayList<>();
             for (Order order : orders) {
-                orderDtos.add(orderCoverter.toDto(order));
+                orderDtos.add(orderConverter.toDto(order));
             }
             return orderDtos;
         } catch (NullPointerException e) {

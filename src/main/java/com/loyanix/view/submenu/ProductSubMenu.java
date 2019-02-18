@@ -1,37 +1,43 @@
-package com.loyanix.view.util;
+package com.loyanix.view.submenu;
 
+import com.loyanix.services.OrderService;
 import com.loyanix.services.ProductService;
 import com.loyanix.services.dto.ProductDto;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
-public class ProductUtil {
+public class ProductSubMenu {
 
-    private static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader bufferedReader;
+    private ProductService productService;
 
-    private static void deleteProduct(ProductService productService) throws IOException {
+    public ProductSubMenu(BufferedReader bufferedReader, ProductService productService) {
+        this.bufferedReader = bufferedReader;
+        this.productService = productService;
+    }
+
+    private void deleteProduct() throws IOException {
         System.out.println("Enter ID to delete:");
         Long id = Long.parseLong(bufferedReader.readLine());
         productService.delete(id);
     }
 
-    private static void updateProduct(ProductService productService) throws IOException {
+    private void updateProduct() throws IOException {
         System.out.println("Enter ID to update:");
         Long id = Long.parseLong(bufferedReader.readLine());
-        ProductDto productToUpdate = createProduct(productService);
+        ProductDto productToUpdate = createProduct();
         productService.update(id, productToUpdate);
     }
 
-    private static ProductDto showProduct(ProductService productService) throws IOException {
+    private ProductDto showProduct() throws IOException {
         System.out.println("Enter ID to show:");
         Long id = Long.parseLong(bufferedReader.readLine());
         return productService.getById(id);
     }
 
-    private static ProductDto createProduct(ProductService productService) throws IOException {
+    private ProductDto createProduct() throws IOException {
         System.out.println("Input Name of Product");
         String name = bufferedReader.readLine();
         System.out.println("Input Price of Product");
@@ -47,13 +53,13 @@ public class ProductUtil {
     }
 
 
-    private static void getListOfProducts(ProductService productService) {
+    private void getListOfProducts() {
         for (ProductDto productDto : productService.findAll()) {
             System.out.println(productDto);
         }
     }
 
-    public static void showProductMenu(ProductService productService) throws IOException {
+    public void showProductMenuForAdmin() throws IOException {
         boolean isRunning = true;
         while (isRunning) {
             System.out.println("1. Add Product");
@@ -65,19 +71,19 @@ public class ProductUtil {
             System.out.println("0. Exit");
             switch (bufferedReader.readLine()) {
                 case "1":
-                    createProduct(productService);
+                    createProduct();
                     break;
                 case "2":
-                    updateProduct(productService);
+                    updateProduct();
                     break;
                 case "3":
-                    deleteProduct(productService);
+                    deleteProduct();
                     break;
                 case "4":
-                    System.out.println(showProduct(productService));
+                    System.out.println(showProduct());
                     break;
                 case "5":
-                    getListOfProducts(productService);
+                    getListOfProducts();
                     break;
                 case "6":
                     return;
@@ -89,4 +95,30 @@ public class ProductUtil {
             }
         }
     }
+
+    public void showProductMenuForClient(ProductService productService) throws IOException {
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("4. Show Product");
+            System.out.println("5. List of Products");
+            System.out.println("6. Return");
+            System.out.println("0. Exit");
+            switch (bufferedReader.readLine()) {
+                case "4":
+                    System.out.println(showProduct());
+                    break;
+                case "5":
+                    getListOfProducts();
+                    break;
+                case "6":
+                    return;
+                case "0":
+                    System.exit(0);
+                default:
+                    System.out.println("Wrong symbol");
+                    break;
+            }
+        }
+    }
+
 }

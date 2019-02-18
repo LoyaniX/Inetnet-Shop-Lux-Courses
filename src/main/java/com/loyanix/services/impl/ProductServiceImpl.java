@@ -13,8 +13,13 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private ProductDao productDao = new ProductDaoImpl();
-    private ProductConverter productConverter = new ProductConverterImpl();
+    private ProductDao productDao;
+    private ProductConverter productConverter;
+
+    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter) {
+        this.productDao = productDao;
+        this.productConverter = productConverter;
+    }
 
     @Override
     public void create(ProductDto productDto) {
