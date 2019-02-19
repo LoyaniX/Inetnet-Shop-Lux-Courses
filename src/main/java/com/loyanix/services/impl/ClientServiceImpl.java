@@ -10,6 +10,7 @@ import com.loyanix.validator.ValidationService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClientServiceImpl implements ClientService {
 
@@ -27,6 +28,9 @@ public class ClientServiceImpl implements ClientService {
     public void create(ClientDto clientDto) {
         try {
             validationService.validateAge(clientDto.getAge());
+            validationService.validateEmail(clientDto.getEmail());
+            validationService.validatePhone(clientDto.getPhone());
+            validationService.isPhoneUniqe(this, clientDto.getPhone());
             clientDao.create(clientConverter.toEntity(clientDto));
         } catch (BusinessException e) {
             e.printStackTrace();
@@ -34,28 +38,27 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto getById(Long id) {
-        try {
-            return clientConverter.toDto(clientDao.getById(id));
-        } catch (NullPointerException e) {
-            System.out.println("Client with id " + id + " is absent");
-            e.getMessage();
-            return null;
-        }
+    public ClientDto getById(Long id) throws BusinessException {
+        validationService.validateId(this, id);
+        return clientConverter.toDto(clientDao.getById(id));
     }
 
     @Override
-    public void update(Long id, ClientDto clientDto) {
+    public void update(Long id, ClientDto clientDto) throws BusinessException {
+        validationService.validateAge(clientDto.getAge());
+        validationService.validateEmail(clientDto.getEmail());
+        validationService.validatePhone(clientDto.getPhone());
+        validationService.isPhoneUniqe(this, clientDto.getPhone());
         clientDao.update(id, clientConverter.toEntity(clientDto));
     }
 
     @Override
     public void delete(Long id) {
         try {
+            validationService.validateId(this, id);
             clientDao.delete(id);
-        } catch (NullPointerException e) {
-            System.out.println("Client with id " + id + " is absent");
-            e.getMessage();
+        } catch (BusinessException e) {
+            e.printStackTrace();
         }
     }
 

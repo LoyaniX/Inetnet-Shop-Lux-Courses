@@ -8,8 +8,13 @@ import com.loyanix.services.dto.OrderDto;
 
 public class OrderConverterImpl implements OrderConverter {
 
-    private ClientConverter clientConverter = new ClientConverterImpl();
-    private ProductConverter productConverter = new ProductConverterImpl();
+    private ClientConverter clientConverter;
+    private ProductConverter productConverter;
+
+    public OrderConverterImpl(ClientConverter clientConverter, ProductConverter productConverter) {
+        this.clientConverter = clientConverter;
+        this.productConverter = productConverter;
+    }
 
     @Override
     public Order toEntity(OrderDto orderDto) {

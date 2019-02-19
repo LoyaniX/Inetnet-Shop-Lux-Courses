@@ -1,5 +1,6 @@
 package com.loyanix.view.submenu;
 
+import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.OrderService;
 import com.loyanix.services.dto.OrderDto;
 
@@ -21,7 +22,7 @@ public class OrderSubMenu {
         return null;
     }
 
-    private OrderDto showOrder() throws IOException {
+    private OrderDto showOrder() throws IOException, BusinessException {
         System.out.println("Enter ID to show:");
         long id = Long.parseLong(bufferedReader.readLine());
         return orderService.getById(id);
@@ -61,7 +62,11 @@ public class OrderSubMenu {
                     deleteOrder();
                     break;
                 case "4":
-                    System.out.println(showOrder());
+                    try {
+                        System.out.println(showOrder());
+                    } catch (BusinessException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "5":
                     getListOfOrders();
@@ -84,9 +89,8 @@ public class OrderSubMenu {
             System.out.println("2. Modify Order");
             System.out.println("3. Remove Order");
             System.out.println("4. Show Order");
-            System.out.println("5. List of Orders");
-            System.out.println("6. Return");
-            System.out.println("0. Exit");
+            System.out.println("R. Return");
+            System.out.println("E. Exit");
             switch (bufferedReader.readLine()) {
                 case "1":
                     break;
@@ -96,14 +100,15 @@ public class OrderSubMenu {
                     deleteOrder();
                     break;
                 case "4":
-                    System.out.println(showOrder());
+                    try {
+                        System.out.println(showOrder());
+                    } catch (BusinessException e) {
+                        e.printStackTrace();
+                    }
                     break;
-                case "5":
-                    getListOfOrders();
-                    break;
-                case "6":
+                case "R":
                     return;
-                case "0":
+                case "E":
                     System.exit(0);
                 default:
                     System.out.println("Wrong symbol");

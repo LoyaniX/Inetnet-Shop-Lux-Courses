@@ -7,6 +7,7 @@ import com.loyanix.dao.ProductDao;
 import com.loyanix.dao.impl.ClientDaoImpl;
 import com.loyanix.dao.impl.OrderDaoImpl;
 import com.loyanix.dao.impl.ProductDaoImpl;
+import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.ClientService;
 import com.loyanix.services.OrderService;
 import com.loyanix.services.ProductService;
@@ -42,19 +43,19 @@ public class App {
 
         ClientConverter clientConverter = new ClientConverterImpl();
         ProductConverter productConverter = new ProductConverterImpl();
-        OrderConverter orderConverter = new OrderConverterImpl();
-
-        ValidationService validationService = new ValidationServiceImpl();
+        OrderConverter orderConverter = new OrderConverterImpl(clientConverter, productConverter);
 
         AdminAuth auth = new AdminAuthImpl();
 
-        ClientDao clientDao = new ClientDaoImpl();
+        ClientDao clientDao = ClientDaoImpl.getInstance();
         ProductDao productDao = new ProductDaoImpl();
         OrderDao orderDao = new OrderDaoImpl();
 
+        ValidationService validationService = new ValidationServiceImpl();
+
         ClientService clientService = new ClientServiceImpl(clientDao, clientConverter, validationService);
-        ProductService productService = new ProductServiceImpl(productDao, productConverter);
-        OrderService orderService = new OrderServiceImpl(orderDao, orderConverter);
+        ProductService productService = new ProductServiceImpl(productDao, productConverter, validationService);
+        OrderService orderService = new OrderServiceImpl(orderDao, orderConverter, validationService);
 
         ClientSubMenu clientSubMenu = new ClientSubMenu(bufferedReader, clientService);
         ProductSubMenu productSubMenu = new ProductSubMenu(bufferedReader, productService);

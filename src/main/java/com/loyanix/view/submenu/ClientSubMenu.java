@@ -1,7 +1,9 @@
 package com.loyanix.view.submenu;
 
+import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.ClientService;
 import com.loyanix.services.dto.ClientDto;
+import com.loyanix.validator.ValidationService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,16 +38,19 @@ public class ClientSubMenu {
         clientService.delete(id);
     }
 
-    private void updateClient() throws IOException {
-        System.out.println("Enter ID to update:");
-        Long id = Long.parseLong(bufferedReader.readLine());
-        ClientDto clientToUpdate = createClient();
-        clientService.update(id, clientToUpdate);
+    private void updateClient() {
+        try {
+            System.out.println("Enter ID to update:");
+            Long id = Long.parseLong(bufferedReader.readLine());
+            System.out.println(showClient(id));
+            ClientDto clientToUpdate = createClient();
+            clientService.update(id, clientToUpdate);
+        } catch (IOException | BusinessException e) {
+            e.printStackTrace();
+        }
     }
 
-    private ClientDto showClient() throws IOException {
-        System.out.println("Enter ID to show:");
-        Long id = Long.parseLong(bufferedReader.readLine());
+    private ClientDto showClient(long id) throws BusinessException {
         return clientService.getById(id);
     }
 
@@ -61,10 +66,9 @@ public class ClientSubMenu {
             System.out.println("1. Add Client");
             System.out.println("2. Modify Client");
             System.out.println("3. Remove Client");
-            System.out.println("4. Show Client");
-            System.out.println("5. List of Clients");
-            System.out.println("6. Return");
-            System.out.println("0. Exit");
+            System.out.println("4. List of Clients");
+            System.out.println("R. Return");
+            System.out.println("E. Exit");
             switch (bufferedReader.readLine()) {
                 case "1":
                     clientService.create(createClient());
@@ -76,18 +80,14 @@ public class ClientSubMenu {
                     deleteClient();
                     break;
                 case "4":
-                    System.out.println(showClient());
-                    break;
-                case "5":
                     getListOfClients();
                     break;
-                case "6":
+                case "R":
                     return;
-                case "0":
+                case "E":
                     System.exit(0);
                 default:
                     System.out.println("Wrong symbol");
-                    break;
             }
         }
     }
@@ -95,12 +95,10 @@ public class ClientSubMenu {
     public void showClientMenuForClient() throws IOException {
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("1. Add Client");
-            System.out.println("2. Modify Client");
-            System.out.println("3. Remove Client");
-            System.out.println("4. Show Client");
-            System.out.println("6. Return");
-            System.out.println("0. Exit");
+            System.out.println("1. Register");
+            System.out.println("2. Modify");
+            System.out.println("R. Return");
+            System.out.println("E. Exit");
             switch (bufferedReader.readLine()) {
                 case "1":
                     clientService.create(createClient());
@@ -108,15 +106,9 @@ public class ClientSubMenu {
                 case "2":
                     updateClient();
                     break;
-                case "3":
-                    deleteClient();
-                    break;
-                case "4":
-                    System.out.println(showClient());
-                    break;
-                case "6":
+                case "R":
                     return;
-                case "0":
+                case "E":
                     System.exit(0);
                 default:
                     System.out.println("Wrong symbol");

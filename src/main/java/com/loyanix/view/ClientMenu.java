@@ -30,14 +30,17 @@ public class ClientMenu {
 
             switch (bufferedReader.readLine()) {
                 case "1":
-                    clientSubMenu.showClientMenuForAdmin();
+                    clientSubMenu.showClientMenuForClient();
                     break;
                 case "2":
-                    orderSubMenu.showOrderMenuForClient();
+                    productSubMenu.showProductMenuForClient();
                     break;
                 case "3":
+                    orderSubMenu.showOrderMenuForClient();
+                    break;
+                case "R":
                     return;
-                case "0":
+                case "E":
                     System.exit(0);
                 default:
                     System.out.println("Wrong symbol");
@@ -47,9 +50,10 @@ public class ClientMenu {
     }
 
     private void showMenu() {
-        System.out.println("1. Product");
-        System.out.println("2. Order");
-        System.out.println("3. Return");
-        System.out.println("0. Exit");
+        System.out.println("1. Client");
+        System.out.println("2. Product");
+        System.out.println("3. Order");
+        System.out.println("R. Return");
+        System.out.println("E. Exit");
     }
 }

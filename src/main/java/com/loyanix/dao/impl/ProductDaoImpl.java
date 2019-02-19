@@ -21,7 +21,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Product getById(Long id) throws NullPointerException {
+    public Product getById(Long id) {
         return productMap.get(id);
     }
 
@@ -32,7 +32,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void delete(Long id) throws NullPointerException {
+    public void delete(Long id) {
         productMap.remove(id);
     }
 

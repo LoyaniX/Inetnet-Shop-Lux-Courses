@@ -3,10 +3,12 @@ package com.loyanix.services.impl;
 import com.loyanix.dao.ProductDao;
 import com.loyanix.dao.impl.ProductDaoImpl;
 import com.loyanix.domain.Product;
+import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.ProductService;
 import com.loyanix.services.converter.ProductConverter;
 import com.loyanix.services.converter.impl.ProductConverterImpl;
 import com.loyanix.services.dto.ProductDto;
+import com.loyanix.validator.ValidationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +17,12 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductDao productDao;
     private ProductConverter productConverter;
+    private ValidationService validationService;
 
-    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter) {
+    public ProductServiceImpl(ProductDao productDao, ProductConverter productConverter, ValidationService validationService) {
         this.productDao = productDao;
         this.productConverter = productConverter;
+        this.validationService = validationService;
     }
 
     @Override
@@ -27,14 +31,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getById(Long id) {
-        try {
-            return productConverter.toDto(productDao.getById(id));
-        } catch (Exception e) {
-            System.out.println("Product with id " + id + " is absent");
-            e.getMessage();
-            return null;
-        }
+    public ProductDto getById(Long id) throws BusinessException {
+        validationService.validateId(this, id);
+        return productConverter.toDto(productDao.getById(id));
     }
 
     @Override
@@ -44,13 +43,9 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public void delete(Long id) {
-        try {
-            productDao.delete(id);
-        } catch (Exception e) {
-            System.out.println("Product with id " + id + " is absent");
-            e.getMessage();
-        }
+    public void delete(Long id) throws BusinessException {
+        validationService.validateId(this, id);
+        productDao.delete(id);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.loyanix.view.submenu;
 
+import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.OrderService;
 import com.loyanix.services.ProductService;
 import com.loyanix.services.dto.ProductDto;
@@ -19,9 +20,13 @@ public class ProductSubMenu {
     }
 
     private void deleteProduct() throws IOException {
-        System.out.println("Enter ID to delete:");
-        Long id = Long.parseLong(bufferedReader.readLine());
-        productService.delete(id);
+        try {
+            System.out.println("Enter ID to delete:");
+            Long id = Long.parseLong(bufferedReader.readLine());
+            productService.delete(id);
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateProduct() throws IOException {
@@ -31,7 +36,7 @@ public class ProductSubMenu {
         productService.update(id, productToUpdate);
     }
 
-    private ProductDto showProduct() throws IOException {
+    private ProductDto showProduct() throws IOException, BusinessException {
         System.out.println("Enter ID to show:");
         Long id = Long.parseLong(bufferedReader.readLine());
         return productService.getById(id);
@@ -80,7 +85,11 @@ public class ProductSubMenu {
                     deleteProduct();
                     break;
                 case "4":
-                    System.out.println(showProduct());
+                    try {
+                        System.out.println(showProduct());
+                    } catch (BusinessException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "5":
                     getListOfProducts();
@@ -96,23 +105,27 @@ public class ProductSubMenu {
         }
     }
 
-    public void showProductMenuForClient(ProductService productService) throws IOException {
+    public void showProductMenuForClient() throws IOException {
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("4. Show Product");
-            System.out.println("5. List of Products");
-            System.out.println("6. Return");
-            System.out.println("0. Exit");
+            System.out.println("1. Show Product");
+            System.out.println("2. List of Products");
+            System.out.println("R. Return");
+            System.out.println("E. Exit");
             switch (bufferedReader.readLine()) {
-                case "4":
-                    System.out.println(showProduct());
+                case "1":
+                    try {
+                        System.out.println(showProduct());
+                    } catch (BusinessException e) {
+                        e.printStackTrace();
+                    }
                     break;
-                case "5":
+                case "2":
                     getListOfProducts();
                     break;
-                case "6":
+                case "R":
                     return;
-                case "0":
+                case "E":
                     System.exit(0);
                 default:
                     System.out.println("Wrong symbol");

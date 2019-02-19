@@ -1,13 +1,13 @@
 package com.loyanix.services.impl;
 
 import com.loyanix.dao.OrderDao;
-import com.loyanix.dao.impl.OrderDaoImpl;
 import com.loyanix.domain.Order;
+import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.OrderService;
 import com.loyanix.services.converter.OrderConverter;
-import com.loyanix.services.converter.impl.OrderConverterImpl;
 import com.loyanix.services.dto.OrderDto;
 import com.loyanix.services.dto.ProductDto;
+import com.loyanix.validator.ValidationService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,10 +18,12 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDao;
     private OrderConverter orderConverter;
+    private ValidationService validationService;
 
-    public OrderServiceImpl(OrderDao orderDao, OrderConverter orderConverter) {
+    public OrderServiceImpl(OrderDao orderDao, OrderConverter orderConverter, ValidationService validationService) {
         this.orderDao = orderDao;
         this.orderConverter = orderConverter;
+        this.validationService = validationService;
     }
 
     @Override
@@ -32,30 +34,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto getById(Long id) {
-        try {
-            return orderConverter.toDto(orderDao.getById(id));
-        } catch (NullPointerException e) {
-            System.out.println("User with id " + id + " is absent");
-            e.getMessage();
-            return null;
-        }
+    public OrderDto getById(Long id) throws BusinessException {
+        validationService.validateId(this, id);
+        return orderConverter.toDto(orderDao.getById(id));
     }
 
     @Override
-    public void update(Long id, OrderDto orderDto) {
+    public void update(Long id, OrderDto orderDto) throws BusinessException {
+        validationService.validateId(this, id);
         orderDto.setDateOfCreate(new Date());
         orderDao.update(id, orderConverter.toEntity(orderDto));
     }
 
     @Override
     public void delete(Long id) {
-        try {
-            orderDao.delete(id);
-        } catch (NullPointerException e) {
-            System.out.println("Order with id " + id + " is absent");
-            e.getMessage();
-        }
+        orderDao.delete(id);
     }
 
     @Override
@@ -70,18 +63,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> findAllByClient(Long userId) {
-        try {
-            List<Order> orders = orderDao.findAllByClient(userId);
-            List<OrderDto> orderDtos = new ArrayList<>();
-            for (Order order : orders) {
-                orderDtos.add(orderConverter.toDto(order));
-            }
-            return orderDtos;
-        } catch (NullPointerException e) {
-            System.out.println("User with id " + userId + " is absent");
-            e.getMessage();
-            return null;
+        List<Order> orders = orderDao.findAllByClient(userId);
+        List<OrderDto> orderDtos = new ArrayList<>();
+        for (Order order : orders) {
+            orderDtos.add(orderConverter.toDto(order));
         }
+        return orderDtos;
     }
 
     private BigDecimal calculateCost(OrderDto orderDto) {
