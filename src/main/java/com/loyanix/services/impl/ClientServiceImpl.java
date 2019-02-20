@@ -36,27 +36,25 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto getById(Long id) throws BusinessException {
-        validationService.validateId(this, id);
+    public ClientDto getById(Long id) {
         return clientConverter.toDto(clientDao.getById(id));
     }
 
     @Override
-    public void update(Long id, ClientDto clientDto) throws BusinessException {
-        validationService.validateAge(clientDto.getAge());
-        validationService.validateEmail(clientDto.getEmail());
-        validationService.validatePhone(this, clientDto.getPhone());
-        clientDao.update(id, clientConverter.toEntity(clientDto));
+    public void update(ClientDto clientDto) {
+        try {
+            validationService.validateAge(clientDto.getAge());
+            validationService.validateEmail(clientDto.getEmail());
+            validationService.validatePhone(this, clientDto.getPhone());
+            clientDao.update(clientDto.getId(), clientConverter.toEntity(clientDto));
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Long id) {
-        try {
-            validationService.validateId(this, id);
-            clientDao.delete(id);
-        } catch (BusinessException e) {
-            e.printStackTrace();
-        }
+        clientDao.delete(id);
     }
 
     @Override

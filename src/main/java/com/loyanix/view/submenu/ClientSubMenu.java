@@ -40,10 +40,11 @@ public class ClientSubMenu {
     private void updateClient() {
         try {
             System.out.println("Enter ID to update:");
-            Long id = Long.parseLong(bufferedReader.readLine());
+            long id = Long.parseLong(bufferedReader.readLine());
             System.out.println(showClient(id));
             ClientDto clientToUpdate = createClient();
-            clientService.update(id, clientToUpdate);
+            clientToUpdate.setId(id);
+            clientService.update(clientToUpdate);
         } catch (IOException | BusinessException e) {
             e.printStackTrace();
         }

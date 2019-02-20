@@ -64,8 +64,7 @@ public class ValidationServiceImpl implements ValidationService {
         matcher = pattern.matcher(phone);
         boolean isPhoneUnique = clientService.findAll().stream()
                 .anyMatch(clientDto -> clientDto.getPhone().equals(phone));
-
-        if (!isPhoneUnique) throw new BusinessException("Phone is not unique");
+        if (isPhoneUnique) throw new BusinessException("Phone is not unique");
         if (!matcher.matches()) throw  new BusinessException("Incorrect phone");
     }
 }

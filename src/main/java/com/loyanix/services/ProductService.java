@@ -11,7 +11,7 @@ public interface ProductService {
 
     ProductDto getById(Long id) throws BusinessException;
 
-    void update(Long id, ProductDto productDto);
+    void update(ProductDto productDto);
 
     void delete(Long id) throws BusinessException;
 

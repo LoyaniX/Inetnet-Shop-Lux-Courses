@@ -53,8 +53,8 @@ public class App {
         ValidationService validationService = new ValidationServiceImpl();
 
         ClientService clientService = new ClientServiceImpl(clientDao, clientConverter, validationService);
-        ProductService productService = new ProductServiceImpl(productDao, productConverter, validationService);
-        OrderService orderService = new OrderServiceImpl(orderDao, orderConverter, validationService);
+        ProductService productService = new ProductServiceImpl(productDao, productConverter);
+        OrderService orderService = new OrderServiceImpl(orderDao, orderConverter);
 
         ClientSubMenu clientSubMenu = new ClientSubMenu(bufferedReader, clientService);
         ProductSubMenu productSubMenu = new ProductSubMenu(bufferedReader, productService);

@@ -11,7 +11,7 @@ public interface ClientService {
 
     ClientDto getById(Long id) throws BusinessException;
 
-    void update(Long id, ClientDto clientDto) throws BusinessException;
+    void update(ClientDto clientDto) throws BusinessException;
 
     void delete(Long id);
 

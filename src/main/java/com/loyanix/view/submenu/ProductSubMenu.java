@@ -32,7 +32,8 @@ public class ProductSubMenu {
         System.out.println("Enter ID to update:");
         Long id = Long.parseLong(bufferedReader.readLine());
         ProductDto productToUpdate = createProduct();
-        productService.update(id, productToUpdate);
+        productToUpdate.setId(id);
+        productService.update(productToUpdate);
     }
 
     private ProductDto showProduct() throws IOException, BusinessException {

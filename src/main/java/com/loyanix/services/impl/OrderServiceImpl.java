@@ -2,12 +2,10 @@ package com.loyanix.services.impl;
 
 import com.loyanix.dao.OrderDao;
 import com.loyanix.domain.Order;
-import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.OrderService;
 import com.loyanix.services.converter.OrderConverter;
 import com.loyanix.services.dto.OrderDto;
 import com.loyanix.services.dto.ProductDto;
-import com.loyanix.validator.ValidationService;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -18,12 +16,10 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDao orderDao;
     private OrderConverter orderConverter;
-    private ValidationService validationService;
 
-    public OrderServiceImpl(OrderDao orderDao, OrderConverter orderConverter, ValidationService validationService) {
+    public OrderServiceImpl(OrderDao orderDao, OrderConverter orderConverter) {
         this.orderDao = orderDao;
         this.orderConverter = orderConverter;
-        this.validationService = validationService;
     }
 
     @Override
@@ -34,16 +30,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto getById(Long id) throws BusinessException {
-        validationService.validateId(this, id);
+    public OrderDto getById(Long id) {
         return orderConverter.toDto(orderDao.getById(id));
     }
 
     @Override
-    public void update(Long id, OrderDto orderDto) throws BusinessException {
-        validationService.validateId(this, id);
+    public void update(OrderDto orderDto) {
         orderDto.setDateOfCreate(new Date());
-        orderDao.update(id, orderConverter.toEntity(orderDto));
+        orderDao.update(orderDto.getId(), orderConverter.toEntity(orderDto));
     }
 
     @Override

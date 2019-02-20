@@ -11,7 +11,7 @@ public interface OrderService {
 
     OrderDto getById(Long id) throws BusinessException;
 
-    void update(Long id, OrderDto orderDto) throws BusinessException;
+    void update(OrderDto orderDto) throws BusinessException;
 
     void delete(Long id);
 
