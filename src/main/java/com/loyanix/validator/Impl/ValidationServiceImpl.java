@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ValidationServiceImpl implements ValidationService {
 
     private final String EMAIL_PATTERN = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-    private final String PHONE_PATTERN = "^((\\+?380)([695][70])([0-9]{7}))$";
+    private final String PHONE_PATTERN = "^((\\+?380)((67)|(97)|(50))([0-9]{7}))$";
 
     private Pattern pattern;
     private Matcher matcher;
@@ -59,17 +59,13 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public void validatePhone(String phone) throws BusinessException {
+    public void validatePhone(ClientService clientService, String phone) throws BusinessException {
         pattern = Pattern.compile(PHONE_PATTERN, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(phone);
-        if (!matcher.matches()) throw  new BusinessException("Incorrect phone");
-    }
+        boolean isPhoneUnique = clientService.findAll().stream()
+                .anyMatch(clientDto -> clientDto.getPhone().equals(phone));
 
-    @Override
-    public void isPhoneUniqe(ClientService clientService, String phone) throws BusinessException {
-        if (clientService
-                .findAll()
-                .stream()
-                .anyMatch(clientDto -> clientDto.getPhone().equals(phone))) throw new BusinessException("Phone is not uniqe");
+        if (!isPhoneUnique) throw new BusinessException("Phone is not unique");
+        if (!matcher.matches()) throw  new BusinessException("Incorrect phone");
     }
 }

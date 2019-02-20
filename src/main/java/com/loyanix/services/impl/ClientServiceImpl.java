@@ -28,8 +28,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             validationService.validateAge(clientDto.getAge());
             validationService.validateEmail(clientDto.getEmail());
-            validationService.validatePhone(clientDto.getPhone());
-            validationService.isPhoneUniqe(this, clientDto.getPhone());
+            validationService.validatePhone(this, clientDto.getPhone());
             clientDao.create(clientConverter.toEntity(clientDto));
         } catch (BusinessException e) {
             e.printStackTrace();
@@ -46,8 +45,7 @@ public class ClientServiceImpl implements ClientService {
     public void update(Long id, ClientDto clientDto) throws BusinessException {
         validationService.validateAge(clientDto.getAge());
         validationService.validateEmail(clientDto.getEmail());
-        validationService.validatePhone(clientDto.getPhone());
-        validationService.isPhoneUniqe(this, clientDto.getPhone());
+        validationService.validatePhone(this, clientDto.getPhone());
         clientDao.update(id, clientConverter.toEntity(clientDto));
     }
 

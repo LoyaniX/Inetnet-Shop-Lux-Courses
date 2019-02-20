@@ -17,7 +17,5 @@ public interface ValidationService {
 
     void validateEmail(String email) throws BusinessException;
 
-    void validatePhone(String phone) throws BusinessException;
-
-    void isPhoneUniqe (ClientService clientService, String phone) throws BusinessException;
+    void validatePhone(ClientService clientService, String phone) throws BusinessException;
 }
