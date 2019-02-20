@@ -7,7 +7,6 @@ import com.loyanix.dao.ProductDao;
 import com.loyanix.dao.impl.ClientDaoImpl;
 import com.loyanix.dao.impl.OrderDaoImpl;
 import com.loyanix.dao.impl.ProductDaoImpl;
-import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.ClientService;
 import com.loyanix.services.OrderService;
 import com.loyanix.services.ProductService;

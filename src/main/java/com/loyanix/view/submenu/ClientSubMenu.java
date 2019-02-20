@@ -3,7 +3,6 @@ package com.loyanix.view.submenu;
 import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.ClientService;
 import com.loyanix.services.dto.ClientDto;
-import com.loyanix.validator.ValidationService;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -10,9 +10,9 @@ import com.loyanix.services.dto.ProductDto;
 import com.loyanix.validator.ValidationService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderServiceImpl implements OrderService {
 
@@ -54,28 +54,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> findAll() {
         List<Order> orders = orderDao.findAll();
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orders) {
-            orderDtos.add(orderConverter.toDto(order));
-        }
-        return orderDtos;
+        return orders.stream()
+                .map(order -> orderConverter.toDto(order))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<OrderDto> findAllByClient(Long userId) {
         List<Order> orders = orderDao.findAllByClient(userId);
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orders) {
-            orderDtos.add(orderConverter.toDto(order));
-        }
-        return orderDtos;
+        return orders.stream()
+                .map(order -> orderConverter.toDto(order))
+                .collect(Collectors.toList());
     }
 
     private BigDecimal calculateCost(OrderDto orderDto) {
         BigDecimal orderCost = BigDecimal.ZERO;
         List<ProductDto> productDtos = orderDto.getProducts();
         for (ProductDto productDto : productDtos) {
-            orderCost = orderCost.add(productDto.getPrice().multiply(BigDecimal.valueOf(productDto.getQuantity())));
+            orderCost = productDto.getPrice().multiply(BigDecimal.valueOf(productDto.getQuantity())).add(orderCost);
         }
         return orderCost;
     }

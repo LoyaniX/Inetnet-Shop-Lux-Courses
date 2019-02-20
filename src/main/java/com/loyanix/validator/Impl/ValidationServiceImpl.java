@@ -11,43 +11,44 @@ import java.util.regex.Pattern;
 
 public class ValidationServiceImpl implements ValidationService {
 
-    private String EMAIL_PATTERN = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-    private String PHONE_PATTERN = "^((\\+?380)([695][70])([0-9]{7}))$";
-
-    private ClientService clientService;
+    private final String EMAIL_PATTERN = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+    private final String PHONE_PATTERN = "^((\\+?380)([695][70])([0-9]{7}))$";
 
     private Pattern pattern;
     private Matcher matcher;
 
+    private final int lowAge = 0;
+    private final int highAge = 200;
+
     @Override
     public void validateAge(int age) throws BusinessException {
-        if (age < 0 || age >200) {
+        if (lowAge < 0 || age > highAge) {
             throw new BusinessException("Incorrect age!!!");
         }
     }
 
     @Override
     public void validateId(ClientService clientService, long id) throws BusinessException {
-        if (!clientService
+        if (clientService
                 .findAll()
                 .stream()
-                .anyMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
+                .noneMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
     }
 
     @Override
     public void validateId(OrderService orderService, long id) throws BusinessException {
-        if (!orderService
+        if (orderService
                 .findAll()
                 .stream()
-                .anyMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
+                .noneMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
     }
 
     @Override
     public void validateId(ProductService productService, long id) throws BusinessException {
-        if (!productService
+        if (productService
                 .findAll()
                 .stream()
-                .anyMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
+                .noneMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
     }
 
     @Override

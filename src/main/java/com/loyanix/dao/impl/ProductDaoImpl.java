@@ -1,7 +1,6 @@
 package com.loyanix.dao.impl;
 
 import com.loyanix.dao.ProductDao;
-import com.loyanix.domain.Client;
 import com.loyanix.domain.Product;
 
 import java.util.ArrayList;

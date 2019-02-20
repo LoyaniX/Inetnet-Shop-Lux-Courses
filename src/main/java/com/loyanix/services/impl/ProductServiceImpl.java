@@ -1,17 +1,15 @@
 package com.loyanix.services.impl;
 
 import com.loyanix.dao.ProductDao;
-import com.loyanix.dao.impl.ProductDaoImpl;
 import com.loyanix.domain.Product;
 import com.loyanix.exeptions.BusinessException;
 import com.loyanix.services.ProductService;
 import com.loyanix.services.converter.ProductConverter;
-import com.loyanix.services.converter.impl.ProductConverterImpl;
 import com.loyanix.services.dto.ProductDto;
 import com.loyanix.validator.ValidationService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService {
 
@@ -51,10 +49,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findAll() {
         List<Product> products = productDao.findAll();
-        List<ProductDto> productDtoList = new ArrayList<>();
-        for (Product product : products) {
-            productDtoList.add(productConverter.toDto(product));
-        }
-        return productDtoList;
+        return products.stream()
+                .map(product -> productConverter.toDto(product))
+                .collect(Collectors.toList());
     }
 }

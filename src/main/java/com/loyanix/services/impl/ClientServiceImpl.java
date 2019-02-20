@@ -8,7 +8,6 @@ import com.loyanix.services.converter.ClientConverter;
 import com.loyanix.services.dto.ClientDto;
 import com.loyanix.validator.ValidationService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,10 +64,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<ClientDto> findAll() {
         List<Client> clientList = clientDao.findAll();
-        List<ClientDto> clientDtos = new ArrayList<>();
-        for (Client client : clientList) {
-            clientDtos.add(clientConverter.toDto(client));
-        }
-        return clientDtos;
+        return clientList.stream()
+                .map(client -> clientConverter.toDto(client))
+                .collect(Collectors.toList());
     }
 }
