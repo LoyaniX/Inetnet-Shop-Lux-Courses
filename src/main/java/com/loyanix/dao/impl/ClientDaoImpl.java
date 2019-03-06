@@ -10,6 +10,16 @@ import java.util.Map;
 
 public class ClientDaoImpl implements ClientDao {
 
+    private static ClientDaoImpl instance = null;
+
+    private ClientDaoImpl() {}
+
+    public static synchronized ClientDaoImpl getInstance() {
+        if (instance == null)
+            instance = new ClientDaoImpl();
+        return instance;
+    }
+
     private Map<Long, Client> clientMap = new HashMap<>();
     private long id = 1L;
 
@@ -20,7 +30,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public Client getById(Long id) throws NullPointerException {
+    public Client getById(Long id) {
         return clientMap.get(id);
     }
 
@@ -31,7 +41,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public void delete(Long id) throws NullPointerException {
+    public void delete(Long id) {
         clientMap.remove(id);
     }
 

@@ -1,37 +1,28 @@
 package com.loyanix.view;
 
-import com.loyanix.dao.DataSetupUitl;
-import com.loyanix.services.ClientService;
-import com.loyanix.services.OrderService;
-import com.loyanix.services.ProductService;
-import com.loyanix.services.impl.ClientServiceImpl;
-import com.loyanix.services.impl.OrderServiceImpl;
-import com.loyanix.services.impl.ProductServiceImpl;
-import com.loyanix.view.util.ClientUtil;
-import com.loyanix.view.util.OrderUtil;
-import com.loyanix.view.util.ProductUtil;
+import com.loyanix.view.submenu.ClientSubMenu;
+import com.loyanix.view.submenu.OrderSubMenu;
+import com.loyanix.view.submenu.ProductSubMenu;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class ClientMenu {
 
-    private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader bufferedReader;
 
-    private ClientService clientService;
-    private ProductService productService;
-    private OrderService orderService;
+    private ClientSubMenu clientSubMenu;
+    private OrderSubMenu orderSubMenu;
+    private ProductSubMenu productSubMenu;
 
-    public ClientMenu(ClientService clientService, ProductService productService, OrderService orderService) {
-        this.clientService = clientService;
-        this.productService = productService;
-        this.orderService = orderService;
+    public ClientMenu(BufferedReader bufferedReader, ClientSubMenu clientSubMenu, OrderSubMenu orderSubMenu, ProductSubMenu productSubMenu) {
+        this.bufferedReader = bufferedReader;
+        this.clientSubMenu = clientSubMenu;
+        this.orderSubMenu = orderSubMenu;
+        this.productSubMenu = productSubMenu;
     }
 
     public void show() throws IOException {
-
-        DataSetupUitl.addExampleData(clientService, productService, orderService);
 
         while (true) {
 
@@ -39,14 +30,17 @@ public class ClientMenu {
 
             switch (bufferedReader.readLine()) {
                 case "1":
-                    ProductUtil.showProductMenu(productService);
+                    clientSubMenu.showClientMenuForClient();
                     break;
                 case "2":
-                    OrderUtil.showOrderMenu(orderService);
+                    productSubMenu.showProductMenuForClient();
                     break;
                 case "3":
+                    orderSubMenu.showOrderMenuForClient();
+                    break;
+                case "R":
                     return;
-                case "0":
+                case "E":
                     System.exit(0);
                 default:
                     System.out.println("Wrong symbol");
@@ -56,9 +50,10 @@ public class ClientMenu {
     }
 
     private void showMenu() {
-        System.out.println("1. Product");
-        System.out.println("2. Order");
-        System.out.println("3. Return");
-        System.out.println("0. Exit");
+        System.out.println("1. Client");
+        System.out.println("2. Product");
+        System.out.println("3. Order");
+        System.out.println("R. Return");
+        System.out.println("E. Exit");
     }
 }

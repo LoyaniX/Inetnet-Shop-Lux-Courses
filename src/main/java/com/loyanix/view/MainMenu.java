@@ -1,29 +1,25 @@
 package com.loyanix.view;
 
-import com.loyanix.services.ClientService;
-import com.loyanix.services.OrderService;
-import com.loyanix.services.ProductService;
 import com.loyanix.services.authorization.AdminAuth;
-import com.loyanix.services.authorization.impl.AdminAuthImpl;
-import com.loyanix.services.impl.ClientServiceImpl;
-import com.loyanix.services.impl.OrderServiceImpl;
-import com.loyanix.services.impl.ProductServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class MainMenu {
 
-    private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private final BufferedReader bufferedReader;
 
-    private ClientService clientService = new ClientServiceImpl();
-    private ProductService productService = new ProductServiceImpl();
-    private OrderService orderService = new OrderServiceImpl();
+    private final AdminMenu adminMenu;
+    private final ClientMenu clientMenu;
 
-    private final AdminMenu adminMenu = new AdminMenu(clientService, productService, orderService);
-    private final ClientMenu clientMenu = new ClientMenu(clientService, productService, orderService);
-    private final AdminAuth adminAuth = new AdminAuthImpl();
+    private final AdminAuth adminAuth;
+
+    public MainMenu(BufferedReader bufferedReader, AdminMenu adminMenu, ClientMenu clientMenu, AdminAuth adminAuth) {
+        this.bufferedReader = bufferedReader;
+        this.adminMenu = adminMenu;
+        this.clientMenu = clientMenu;
+        this.adminAuth = adminAuth;
+    }
 
     public void showMenu() throws IOException {
 
@@ -39,7 +35,7 @@ public class MainMenu {
 
                 case "1":
                     System.out.println("Enter admin password to go to admin menu:");
-                    if (adminAuth.authenticate(bufferedReader.readLine())){
+                    if (adminAuth.authenticate(bufferedReader.readLine())) {
                         adminMenu.show();
                     } else {
                         System.out.println("\nWrong password\n");

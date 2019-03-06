@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order getById(Long id) throws NullPointerException {
+    public Order getById(Long id) {
         return orderMap.get(id);
     }
 
@@ -31,7 +31,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void delete(Long id) throws NullPointerException {
+    public void delete(Long id) {
         orderMap.remove(id);
     }
 
@@ -41,7 +41,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllByClient(Long usedId) throws NullPointerException {
+    public List<Order> findAllByClient(Long usedId) {
         List<Order> orderList = findAll();
         List<Order> ordersOfClient = new ArrayList<>();
         for (Order order : orderList) {

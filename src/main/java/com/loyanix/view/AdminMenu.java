@@ -1,43 +1,28 @@
 package com.loyanix.view;
 
-import com.loyanix.dao.DataSetupUitl;
-import com.loyanix.services.ClientService;
-import com.loyanix.services.OrderService;
-import com.loyanix.services.ProductService;
-import com.loyanix.services.dto.ClientDto;
-import com.loyanix.services.dto.OrderDto;
-import com.loyanix.services.dto.ProductDto;
-import com.loyanix.services.impl.ClientServiceImpl;
-import com.loyanix.services.impl.OrderServiceImpl;
-import com.loyanix.services.impl.ProductServiceImpl;
-import com.loyanix.view.util.ClientUtil;
-import com.loyanix.view.util.OrderUtil;
-import com.loyanix.view.util.ProductUtil;
+import com.loyanix.view.submenu.ClientSubMenu;
+import com.loyanix.view.submenu.OrderSubMenu;
+import com.loyanix.view.submenu.ProductSubMenu;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdminMenu {
 
-    private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader bufferedReader;
 
-    private ClientService clientService;
-    private ProductService productService;
-    private OrderService orderService;
+    private ClientSubMenu clientSubMenu;
+    private OrderSubMenu orderSubMenu;
+    private ProductSubMenu productSubMenu;
 
-    public AdminMenu(ClientService clientService, ProductService productService, OrderService orderService) {
-        this.clientService = clientService;
-        this.productService = productService;
-        this.orderService = orderService;
+    public AdminMenu(BufferedReader bufferedReader, ClientSubMenu clientSubMenu, OrderSubMenu orderSubMenu, ProductSubMenu productSubMenu) {
+        this.bufferedReader = bufferedReader;
+        this.clientSubMenu = clientSubMenu;
+        this.orderSubMenu = orderSubMenu;
+        this.productSubMenu = productSubMenu;
     }
 
     public void show() throws IOException {
-
-        DataSetupUitl.addExampleData(clientService, productService, orderService);
 
         while (true) {
 
@@ -45,13 +30,13 @@ public class AdminMenu {
 
             switch (bufferedReader.readLine()) {
                 case "1":
-                    ClientUtil.showClientMenu(clientService);
+                    clientSubMenu.showClientMenuForAdmin();
                     break;
                 case "2":
-                    ProductUtil.showProductMenu(productService);
+                    productSubMenu.showProductMenuForAdmin();
                     break;
                 case "3":
-                    OrderUtil.showOrderMenu(orderService);
+                    orderSubMenu.showOrderMenuForAdmin();
                     break;
                 case "4":
                     return;

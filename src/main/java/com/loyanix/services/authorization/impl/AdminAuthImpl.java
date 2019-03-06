@@ -8,6 +8,7 @@ public class AdminAuthImpl implements AdminAuth {
 
     @Override
     public Boolean authenticate(String password) {
+
         return password.equals(this.password);
     }
 }
