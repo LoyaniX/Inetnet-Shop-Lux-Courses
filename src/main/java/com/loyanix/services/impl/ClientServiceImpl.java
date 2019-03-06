@@ -46,7 +46,7 @@ public class ClientServiceImpl implements ClientService {
             validationService.validateAge(clientDto.getAge());
             validationService.validateEmail(clientDto.getEmail());
             validationService.validatePhone(this, clientDto.getPhone());
-            clientDao.update(clientDto.getId(), clientConverter.toEntity(clientDto));
+            clientDao.update(clientConverter.toEntity(clientDto));
         } catch (BusinessException e) {
             e.printStackTrace();
         }

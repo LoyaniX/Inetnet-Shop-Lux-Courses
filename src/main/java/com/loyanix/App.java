@@ -64,6 +64,7 @@ public class App {
         ClientMenu clientMenu = new ClientMenu(bufferedReader, clientSubMenu, orderSubMenu, productSubMenu);
         MainMenu mainMenu = new MainMenu(bufferedReader, adminMenu, clientMenu, auth);
 
+        DataSetupUitl.createTebles();
         DataSetupUitl.addExampleData(clientService, productService, orderService);
 
         mainMenu.showMenu();
