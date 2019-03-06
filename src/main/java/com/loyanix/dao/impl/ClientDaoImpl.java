@@ -2,14 +2,10 @@ package com.loyanix.dao.impl;
 
 import com.loyanix.dao.ClientDao;
 import com.loyanix.domain.Client;
-import javafx.beans.binding.When;
-import jdk.nashorn.internal.ir.WhileNode;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClientDaoImpl implements ClientDao {
 
@@ -147,9 +143,9 @@ public class ClientDaoImpl implements ClientDao {
             String password = "";
             Connection connection = DriverManager.getConnection(url, user, password);
             assert connection != null;
-            Statement statement = connection.createStatement();
             String sqlSelectUsers = "SELECT * FROM USERS";
-            ResultSet resultSet = statement.executeQuery(sqlSelectUsers);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectUsers);
+            ResultSet resultSet = preparedStatement.executeQuery(sqlSelectUsers);
             while (resultSet.next()) {
                 clientList.add(new Client(resultSet.getLong("ID_USER"),
                         resultSet.getString("NAME"),
@@ -158,7 +154,7 @@ public class ClientDaoImpl implements ClientDao {
                         resultSet.getString("EMAIL"),
                         resultSet.getString("PHONE")));
             }
-            statement.close();
+            preparedStatement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
