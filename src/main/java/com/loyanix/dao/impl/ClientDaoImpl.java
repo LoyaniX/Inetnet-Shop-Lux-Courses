@@ -1,6 +1,7 @@
 package com.loyanix.dao.impl;
 
 import com.loyanix.dao.ClientDao;
+import com.loyanix.dao.DataUitl;
 import com.loyanix.domain.Client;
 
 import java.sql.*;
@@ -23,26 +24,15 @@ public class ClientDaoImpl implements ClientDao {
     @Override
     public void create(Client client) {
 
-        Connection connection = null;
         try {
-            Class.forName("org.h2.Driver").newInstance();
-            String url = "jdbc:h2:~/InternetShopLux";
-            String user = "sa";
-            String password = "";
-            connection = DriverManager.getConnection(url, user, password);
-        } catch (Exception e) {
-            System.out.println("Error to connect to DB");
-            e.printStackTrace();
-        }
-        String sqlInsertDataOfUser = "INSERT INTO USERS(NAME," +
-                "SURNAME," +
-                "AGE, " +
-                "EMAIL," +
-                "PHONE)" +
-                "VALUES (?,?,?,?,?)";
-        try {
-            assert connection != null;
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlInsertDataOfUser);
+            Connection connection = DataUitl.getConnection();
+            String sqlCreateUser = "INSERT INTO USERS(NAME," +
+                    "SURNAME," +
+                    "AGE, " +
+                    "EMAIL," +
+                    "PHONE)" +
+                    "VALUES (?,?,?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateUser);
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getSurname());
             preparedStatement.setInt(3, client.getAge());
@@ -50,7 +40,7 @@ public class ClientDaoImpl implements ClientDao {
             preparedStatement.setString(5, client.getPhone());
             preparedStatement.executeUpdate();
             preparedStatement.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -59,18 +49,13 @@ public class ClientDaoImpl implements ClientDao {
     public Client getById(Long id) {
         Client client = null;
         try {
-            Class.forName("org.h2.Driver").newInstance();
-            String url = "jdbc:h2:~/InternetShopLux";
-            String user = "sa";
-            String password = "";
-            Connection connection = DriverManager.getConnection(url, user, password);
-            assert connection != null;
-            String sqlSelectUser = "SELECT * FROM USERS WHERE ID_USER = ?";
+            Connection connection = DataUitl.getConnection();
+            String sqlSelectUser = "SELECT * FROM USERS WHERE ID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectUser);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                client = new Client(resultSet.getLong("ID_USER"),
+                client = new Client(resultSet.getLong("ID"),
                         resultSet.getString("NAME"),
                         resultSet.getString("SURNAME"),
                         resultSet.getInt("AGE"),
@@ -87,20 +72,15 @@ public class ClientDaoImpl implements ClientDao {
     @Override
     public void update(Client client) {
         try {
-            Class.forName("org.h2.Driver").newInstance();
-            String url = "jdbc:h2:~/InternetShopLux";
-            String user = "sa";
-            String password = "";
-            Connection connection = DriverManager.getConnection(url, user, password);
-            assert connection != null;
-            String sqlSelectUser = "UPDATE USERS SET " +
+            Connection connection = DataUitl.getConnection();
+            String sqlUpdateUser = "UPDATE USERS SET " +
                     "NAME = ?," +
                     "SURNAME = ?," +
                     "AGE = ?," +
                     "EMAIL = ?," +
                     "PHONE = ? " +
-                    "WHERE ID_USER = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectUser);
+                    "WHERE ID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateUser);
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getSurname());
             preparedStatement.setInt(3, client.getAge());
@@ -117,14 +97,9 @@ public class ClientDaoImpl implements ClientDao {
     @Override
     public void delete(Long id) {
         try {
-            Class.forName("org.h2.Driver").newInstance();
-            String url = "jdbc:h2:~/InternetShopLux";
-            String user = "sa";
-            String password = "";
-            Connection connection = DriverManager.getConnection(url, user, password);
-            assert connection != null;
-            String sqlSelectUser = "DELETE FROM USERS WHERE ID_USER = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectUser);
+            Connection connection = DataUitl.getConnection();
+            String sqlDeleteUser = "DELETE FROM USERS WHERE ID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlDeleteUser);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -137,24 +112,19 @@ public class ClientDaoImpl implements ClientDao {
     public List<Client> findAll() {
         List<Client> clientList = new ArrayList<>();
         try {
-            Class.forName("org.h2.Driver").newInstance();
-            String url = "jdbc:h2:~/InternetShopLux";
-            String user = "sa";
-            String password = "";
-            Connection connection = DriverManager.getConnection(url, user, password);
-            assert connection != null;
+            Connection connection = DataUitl.getConnection();
             String sqlSelectUsers = "SELECT * FROM USERS";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectUsers);
-            ResultSet resultSet = preparedStatement.executeQuery(sqlSelectUsers);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlSelectUsers);
             while (resultSet.next()) {
-                clientList.add(new Client(resultSet.getLong("ID_USER"),
+                clientList.add(new Client(resultSet.getLong("ID"),
                         resultSet.getString("NAME"),
                         resultSet.getString("SURNAME"),
                         resultSet.getInt("AGE"),
                         resultSet.getString("EMAIL"),
                         resultSet.getString("PHONE")));
             }
-            preparedStatement.close();
+            statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

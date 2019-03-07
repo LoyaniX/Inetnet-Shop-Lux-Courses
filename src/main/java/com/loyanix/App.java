@@ -1,7 +1,7 @@
 package com.loyanix;
 
 import com.loyanix.dao.ClientDao;
-import com.loyanix.dao.DataSetupUitl;
+import com.loyanix.dao.DataUitl;
 import com.loyanix.dao.OrderDao;
 import com.loyanix.dao.ProductDao;
 import com.loyanix.dao.impl.ClientDaoImpl;
@@ -64,8 +64,8 @@ public class App {
         ClientMenu clientMenu = new ClientMenu(bufferedReader, clientSubMenu, orderSubMenu, productSubMenu);
         MainMenu mainMenu = new MainMenu(bufferedReader, adminMenu, clientMenu, auth);
 
-        DataSetupUitl.createTebles();
-        DataSetupUitl.addExampleData(clientService, productService, orderService);
+        DataUitl.createTebles();
+        DataUitl.addExampleData(clientService, productService, orderService);
 
         mainMenu.showMenu();
     }

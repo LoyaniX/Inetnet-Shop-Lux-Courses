@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class DataSetupUitl {
+public class DataUitl {
 
     public static void createTebles(){
         Connection connection = null;
@@ -33,22 +33,38 @@ public class DataSetupUitl {
         String sqlDropTableProducts = "DROP TABLE IF EXISTS PRODUCTS";
         String sqlDropTableOrders = "DROP TABLE IF EXISTS ORDERS";
 
-        String sqlCreateTableUsers = "CREATE TABLE USERS(ID_USER INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
+        String sqlCreateTableUsers = "CREATE TABLE USERS(ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
                 "NAME VARCHAR(32) NOT NULL," +
                 "SURNAME VARCHAR(32) NOT NULL," +
                 "AGE INT NOT NULL," +
                 "EMAIL VARCHAR(32) NOT NULL," +
                 "PHONE VARCHAR(32) NOT NULL)";
 
+        String sqlCreateTableProducs = "CREATE TABLE PRODUCTS(ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
+                "NAME VARCHAR(32) NOT NULL," +
+                "PRICE NUMBER NOT NULL," +
+                "GENDER VARCHAR(32)," +
+                "SIZE VARCHAR(32)," +
+                "QUANTITY INT NOT NULL)";
+
         try {
             assert connection != null;
-            Statement statementUsers = connection.createStatement();
-            statementUsers.executeUpdate(sqlDropTableUsers);
-            statementUsers.executeUpdate(sqlCreateTableUsers);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sqlDropTableUsers);
+            statement.executeUpdate(sqlCreateTableUsers);
+            statement.executeUpdate(sqlDropTableProducts);
+            statement.executeUpdate(sqlCreateTableProducs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("DB is created");
+    }
+
+    public static Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver").newInstance();
+        String url = "jdbc:h2:~/InternetShopLux";
+        String user = "sa";
+        String password = "";
+        return DriverManager.getConnection(url, user, password);
     }
 
     public static void addExampleData(ClientService clientService, ProductService productService, OrderService orderService) {

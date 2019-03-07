@@ -10,7 +10,7 @@ public interface ProductDao {
 
     Product getById(Long id);
 
-    void update(Long id, Product product);
+    void update(Product product);
 
     void delete(Long id);
 
