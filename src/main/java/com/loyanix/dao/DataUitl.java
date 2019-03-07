@@ -32,6 +32,7 @@ public class DataUitl {
         String sqlDropTableUsers = "DROP TABLE IF EXISTS USERS";
         String sqlDropTableProducts = "DROP TABLE IF EXISTS PRODUCTS";
         String sqlDropTableOrders = "DROP TABLE IF EXISTS ORDERS";
+        String sqlDropTableOrders_Products = "DROP TABLE IF EXISTS ORDERS_PRODUCTS";
 
         String sqlCreateTableUsers = "CREATE TABLE USERS(ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
                 "NAME VARCHAR(32) NOT NULL," +
@@ -47,13 +48,27 @@ public class DataUitl {
                 "SIZE VARCHAR(32)," +
                 "QUANTITY INT NOT NULL)";
 
+        String sqlCreateTableOrders = "CREATE TABLE ORDERS(ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
+                "USER_ID INT NOT NULL," +
+                "PRICE NUMBER NOT NULL" +
+                "DATE_OF_CREATE DATE NOT NULL" +
+                "CONSTRAINT USER FOREIGN_KEY (USER_ID) REFERENCES USERS (ID) ON DELETE CASCADE ON UPDATE CASCADE";
+        String sqlCreateTableOrders_Products = "CREATE TABLE ORDERS_PRODUCTS(" +
+                "ORDER_ID INT NOT NULL," +
+                "PRODUCTS_ID INT NOT NULL," +
+                "CONSTRAINT ORDER_FK FOREIGN KEY (ORDER_ID) REFERENCES ORDERS (ID) ON DELETE CASCADE ON UPDATE CASCADE," +
+                "CONSTRAINT PRODUCT_FK FOREIGN KEY (PRODUCTS_ID) REFERENCES PRODUCTS (ID) ON DELETE NO ACTION ON UPDATE NO ACTION)";
+
         try {
             assert connection != null;
             Statement statement = connection.createStatement();
             statement.executeUpdate(sqlDropTableUsers);
             statement.executeUpdate(sqlCreateTableUsers);
             statement.executeUpdate(sqlDropTableProducts);
-            statement.executeUpdate(sqlCreateTableProducs);
+            statement.executeUpdate(sqlDropTableOrders);
+            statement.executeUpdate(sqlCreateTableOrders);
+            statement.executeUpdate(sqlDropTableOrders_Products);
+            statement.executeUpdate(sqlCreateTableOrders_Products);
         } catch (SQLException e) {
             e.printStackTrace();
         }
