@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataUitl {
@@ -49,22 +50,22 @@ public class DataUitl {
                 "QUANTITY INT NOT NULL)";
 
         String sqlCreateTableOrders = "CREATE TABLE ORDERS(ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
-                "USER_ID INT NOT NULL," +
-                "PRICE NUMBER NOT NULL" +
-                "DATE_OF_CREATE DATE NOT NULL" +
-                "CONSTRAINT USER FOREIGN_KEY (USER_ID) REFERENCES USERS (ID) ON DELETE CASCADE ON UPDATE CASCADE";
+                "USER_ID INT NOT NULL REFERENCES USERS (ID) ON DELETE CASCADE ON UPDATE CASCADE," +
+                "PRICE NUMBER NOT NULL," +
+                "DATE_OF_CREATE VARCHAR(32) NOT NULL)";
+
         String sqlCreateTableOrders_Products = "CREATE TABLE ORDERS_PRODUCTS(" +
                 "ORDER_ID INT NOT NULL," +
-                "PRODUCTS_ID INT NOT NULL," +
+                "PRODUCT_ID INT NOT NULL," +
                 "CONSTRAINT ORDER_FK FOREIGN KEY (ORDER_ID) REFERENCES ORDERS (ID) ON DELETE CASCADE ON UPDATE CASCADE," +
-                "CONSTRAINT PRODUCT_FK FOREIGN KEY (PRODUCTS_ID) REFERENCES PRODUCTS (ID) ON DELETE NO ACTION ON UPDATE NO ACTION)";
+                "CONSTRAINT PRODUCT_FK FOREIGN KEY (PRODUCT_ID) REFERENCES PRODUCTS (ID) ON DELETE NO ACTION ON UPDATE NO ACTION)";
 
         try {
-            assert connection != null;
             Statement statement = connection.createStatement();
             statement.executeUpdate(sqlDropTableUsers);
             statement.executeUpdate(sqlCreateTableUsers);
             statement.executeUpdate(sqlDropTableProducts);
+            statement.executeUpdate(sqlCreateTableProducs);
             statement.executeUpdate(sqlDropTableOrders);
             statement.executeUpdate(sqlCreateTableOrders);
             statement.executeUpdate(sqlDropTableOrders_Products);
@@ -93,7 +94,13 @@ public class DataUitl {
         clientService.create(new ClientDto("John", "Shelvy", 12, "loyanmaksim@gmail.com", "+380675452254"));
         clientService.create(new ClientDto("Marina", "Kayl", 65, "loyanmaksim@gmail.com", "+380505696886"));
 
-       /* List<ProductDto> exampleProducts = productService.findAll();
+        List<ProductDto> exampleProducts = productService.findAll();
+        List<ProductDto> productDto = new ArrayList<>();
+        try {
+            productDto.add(productService.getById(2L));
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
         for (long i = 1; i < 5; i++) {
             ClientDto clientDto = null;
             try {
@@ -102,6 +109,13 @@ public class DataUitl {
                 e.printStackTrace();
             }
             orderService.create(new OrderDto(clientDto, exampleProducts, null, null));
-        }*/
+        }
+        ClientDto clientDto = null;
+        try {
+            clientDto = clientService.getById(2L);
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        orderService.create(new OrderDto(clientDto, productDto, null, null));
     }
 }

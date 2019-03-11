@@ -1,5 +1,7 @@
 package com.loyanix.domain;
 
+import java.util.Objects;
+
 public class Client {
 
     private Long id;
@@ -76,5 +78,24 @@ public class Client {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(id, client.id) &&
+                Objects.equals(name, client.name) &&
+                Objects.equals(surname, client.surname) &&
+                Objects.equals(age, client.age) &&
+                Objects.equals(email, client.email) &&
+                Objects.equals(phone, client.phone);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, surname, age, email, phone);
     }
 }
