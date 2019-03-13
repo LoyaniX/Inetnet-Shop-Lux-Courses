@@ -19,6 +19,9 @@ public class ProductServiceImpl implements ProductService {
         this.productConverter = productConverter;
     }
 
+    public ProductServiceImpl() {
+    }
+
     @Override
     public void create(ProductDto productDto) {
         productDao.create(productConverter.toEntity(productDto));

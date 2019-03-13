@@ -7,6 +7,7 @@ import com.loyanix.services.ProductService;
 import com.loyanix.services.dto.ClientDto;
 import com.loyanix.services.dto.OrderDto;
 import com.loyanix.services.dto.ProductDto;
+import org.apache.commons.dbcp.BasicDataSource;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataUitl {
+
+    private static Connection connection;
 
     public static void createTebles(){
         Connection connection = null;
@@ -75,14 +78,17 @@ public class DataUitl {
         }
     }
 
-    public static Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+    public static void createConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver").newInstance();
         String url = "jdbc:h2:~/InternetShopLux";
         String user = "sa";
         String password = "";
-        return DriverManager.getConnection(url, user, password);
+        connection = DriverManager.getConnection(url, user, password);
     }
 
+    public static Connection getConnection() {
+        return connection;
+    }
     public static void addExampleData(ClientService clientService, ProductService productService, OrderService orderService) {
         productService.create(new ProductDto("Tesla", new BigDecimal(123456789), "unisex", "Model X", 12));
         productService.create(new ProductDto("Tesla", new BigDecimal(2412312), "male", "Model S", 123));

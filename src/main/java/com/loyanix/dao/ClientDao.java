@@ -2,6 +2,7 @@ package com.loyanix.dao;
 
 import com.loyanix.domain.Client;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ClientDao {

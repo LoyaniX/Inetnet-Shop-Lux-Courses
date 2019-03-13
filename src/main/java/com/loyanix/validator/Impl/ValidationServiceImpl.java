@@ -11,10 +11,11 @@ import java.util.regex.Pattern;
 
 public class ValidationServiceImpl implements ValidationService {
 
-    private final String EMAIL_PATTERN = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
-    private final String PHONE_PATTERN = "^((\\+?380)((67)|(97)|(50))([0-9]{7}))$";
+    private static final String EMAIL = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+    private static final String PHONE = "^((\\+?380)((67)|(97)|(50))([0-9]{7}))$";
 
-    private Pattern pattern;
+    private static final Pattern PATTERN_EMAIL = Pattern.compile(EMAIL, Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN_PHONE = Pattern.compile(PHONE, Pattern.CASE_INSENSITIVE);
     private Matcher matcher;
 
     private final int lowAge = 0;
@@ -28,40 +29,14 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public void validateId(ClientService clientService, long id) throws BusinessException {
-        if (clientService
-                .findAll()
-                .stream()
-                .noneMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
-    }
-
-    @Override
-    public void validateId(OrderService orderService, long id) throws BusinessException {
-        if (orderService
-                .findAll()
-                .stream()
-                .noneMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
-    }
-
-    @Override
-    public void validateId(ProductService productService, long id) throws BusinessException {
-        if (productService
-                .findAll()
-                .stream()
-                .noneMatch(clientDto -> clientDto.getId().equals(id))) throw new BusinessException("Id is absent");
-    }
-
-    @Override
     public void validateEmail(String email) throws BusinessException {
-        pattern = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(email);
+    matcher = PATTERN_EMAIL.matcher(email);
         if (!matcher.matches()) throw  new BusinessException("Incorrect email");
     }
 
     @Override
     public void validatePhone(ClientService clientService, String phone) throws BusinessException {
-        pattern = Pattern.compile(PHONE_PATTERN, Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(phone);
+        matcher = PATTERN_PHONE.matcher(phone);
         boolean isPhoneUnique = clientService.findAll().stream()
                 .anyMatch(clientDto -> clientDto.getPhone().equals(phone));
         if (isPhoneUnique) throw new BusinessException("Phone is not unique");

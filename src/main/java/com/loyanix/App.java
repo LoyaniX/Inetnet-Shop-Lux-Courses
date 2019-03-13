@@ -33,6 +33,7 @@ import com.loyanix.view.submenu.ProductSubMenu;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 public class App {
 
@@ -58,12 +59,17 @@ public class App {
 
         ClientSubMenu clientSubMenu = new ClientSubMenu(bufferedReader, clientService);
         ProductSubMenu productSubMenu = new ProductSubMenu(bufferedReader, productService);
-        OrderSubMenu orderSubMenu = new OrderSubMenu(bufferedReader, orderService);
+        OrderSubMenu orderSubMenu = new OrderSubMenu(bufferedReader, orderService, clientSubMenu, productSubMenu);
 
         AdminMenu adminMenu = new AdminMenu(bufferedReader, clientSubMenu, orderSubMenu, productSubMenu);
         ClientMenu clientMenu = new ClientMenu(bufferedReader, clientSubMenu, orderSubMenu, productSubMenu);
         MainMenu mainMenu = new MainMenu(bufferedReader, adminMenu, clientMenu, auth);
 
+        try {
+            DataUitl.createConnection();
+        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         DataUitl.createTebles();
         DataUitl.addExampleData(clientService, productService, orderService);
 

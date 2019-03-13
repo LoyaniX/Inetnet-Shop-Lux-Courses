@@ -8,6 +8,7 @@ import com.loyanix.services.converter.ClientConverter;
 import com.loyanix.services.dto.ClientDto;
 import com.loyanix.validator.ValidationService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,9 @@ public class ClientServiceImpl implements ClientService {
         this.clientDao = clientDao;
         this.clientConverter = clientConverter;
         this.validationService = validationService;
+    }
+
+    public ClientServiceImpl() {
     }
 
     @Override

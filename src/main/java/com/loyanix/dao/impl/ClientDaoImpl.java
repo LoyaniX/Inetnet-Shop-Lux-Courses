@@ -11,6 +11,18 @@ import java.util.List;
 public class ClientDaoImpl implements ClientDao {
 
     private static ClientDaoImpl instance = null;
+    private String sqlCreateUser = "INSERT INTO USERS(NAME, SURNAME, AGE, EMAIL, PHONE) VALUES (?,?,?,?,?)";
+    private String sqlSelectUser = "SELECT * FROM USERS WHERE ID = ?";
+    private String sqlUpdateUser = "UPDATE USERS SET NAME = ?," +
+                                                    "SURNAME = ?," +
+                                                    "AGE = ?," +
+                                                    "EMAIL = ?," +
+                                                    "PHONE = ? " +
+                                                    "WHERE ID = ?";
+    private String sqlDeleteUser = "DELETE FROM USERS WHERE ID = ?";
+    private String sqlSelectUsers = "SELECT * FROM USERS";
+
+
 
     private ClientDaoImpl() {
     }
@@ -26,12 +38,6 @@ public class ClientDaoImpl implements ClientDao {
 
         try {
             Connection connection = DataUitl.getConnection();
-            String sqlCreateUser = "INSERT INTO USERS(NAME," +
-                    "SURNAME," +
-                    "AGE, " +
-                    "EMAIL," +
-                    "PHONE)" +
-                    "VALUES (?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateUser);
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getSurname());
@@ -50,7 +56,6 @@ public class ClientDaoImpl implements ClientDao {
         Client client = null;
         try {
             Connection connection = DataUitl.getConnection();
-            String sqlSelectUser = "SELECT * FROM USERS WHERE ID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectUser);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -73,13 +78,6 @@ public class ClientDaoImpl implements ClientDao {
     public void update(Client client) {
         try {
             Connection connection = DataUitl.getConnection();
-            String sqlUpdateUser = "UPDATE USERS SET " +
-                    "NAME = ?," +
-                    "SURNAME = ?," +
-                    "AGE = ?," +
-                    "EMAIL = ?," +
-                    "PHONE = ? " +
-                    "WHERE ID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateUser);
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getSurname());
@@ -98,7 +96,6 @@ public class ClientDaoImpl implements ClientDao {
     public void delete(Long id) {
         try {
             Connection connection = DataUitl.getConnection();
-            String sqlDeleteUser = "DELETE FROM USERS WHERE ID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlDeleteUser);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -113,7 +110,6 @@ public class ClientDaoImpl implements ClientDao {
         List<Client> clientList = new ArrayList<>();
         try {
             Connection connection = DataUitl.getConnection();
-            String sqlSelectUsers = "SELECT * FROM USERS";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlSelectUsers);
             while (resultSet.next()) {
