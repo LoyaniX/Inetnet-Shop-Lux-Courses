@@ -1,7 +1,7 @@
 package com.loyanix.services.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderDto {
@@ -10,16 +10,16 @@ public class OrderDto {
     private ClientDto client;
     private List<ProductDto> products;
     private BigDecimal orderPrice;
-    private Date dateOfCreate;
+    private LocalDateTime dateOfCreate;
 
-    public OrderDto(ClientDto client, List<ProductDto> products, BigDecimal orderPrice, Date dateOfCreate) {
+    public OrderDto(ClientDto client, List<ProductDto> products, BigDecimal orderPrice, LocalDateTime dateOfCreate) {
         this.client = client;
         this.products = products;
         this.orderPrice = orderPrice;
         this.dateOfCreate = dateOfCreate;
     }
 
-    public OrderDto(Long id, ClientDto client, List<ProductDto> products, BigDecimal orderPrice, Date dateOfCreate) {
+    public OrderDto(Long id, ClientDto client, List<ProductDto> products, BigDecimal orderPrice, LocalDateTime dateOfCreate) {
         this.id = id;
         this.client = client;
         this.products = products;
@@ -59,11 +59,11 @@ public class OrderDto {
         this.orderPrice = orderPrice;
     }
 
-    public Date getDateOfCreate() {
+    public LocalDateTime getDateOfCreate() {
         return dateOfCreate;
     }
 
-    public void setDateOfCreate(Date dateOfCreate) {
+    public void setDateOfCreate(LocalDateTime dateOfCreate) {
         this.dateOfCreate = dateOfCreate;
     }
 

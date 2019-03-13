@@ -18,6 +18,10 @@ public class ProductSubMenu {
         this.productService = productService;
     }
 
+    public ProductSubMenu() {
+
+    }
+
     private void deleteProduct() throws IOException {
         try {
             System.out.println("Enter ID to delete:");
@@ -36,9 +40,7 @@ public class ProductSubMenu {
         productService.update(productToUpdate);
     }
 
-    private ProductDto showProduct() throws IOException, BusinessException {
-        System.out.println("Enter ID to show:");
-        Long id = Long.parseLong(bufferedReader.readLine());
+    public ProductDto showProduct(long id) throws IOException, BusinessException {
         return productService.getById(id);
     }
 
@@ -58,7 +60,7 @@ public class ProductSubMenu {
     }
 
 
-    private void getListOfProducts() {
+    public void getListOfProducts() {
         for (ProductDto productDto : productService.findAll()) {
             System.out.println(productDto);
         }
@@ -86,7 +88,9 @@ public class ProductSubMenu {
                     break;
                 case "4":
                     try {
-                        System.out.println(showProduct());
+                        System.out.println("Enter ID to show:");
+                        Long id = Long.parseLong(bufferedReader.readLine());
+                        System.out.println(showProduct(id));
                     } catch (BusinessException e) {
                         e.printStackTrace();
                     }
@@ -115,7 +119,9 @@ public class ProductSubMenu {
             switch (bufferedReader.readLine()) {
                 case "1":
                     try {
-                        System.out.println(showProduct());
+                        System.out.println("Enter ID to show:");
+                        Long id = Long.parseLong(bufferedReader.readLine());
+                        System.out.println(showProduct(id));
                     } catch (BusinessException e) {
                         e.printStackTrace();
                     }

@@ -2,6 +2,7 @@ package com.loyanix.dao;
 
 import com.loyanix.domain.Client;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ClientDao {
@@ -10,7 +11,7 @@ public interface ClientDao {
 
     Client getById(Long id);
 
-    void update(Long id, Client client);
+    void update(Client client);
 
     void delete(Long id);
 

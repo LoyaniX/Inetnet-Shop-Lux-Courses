@@ -17,6 +17,9 @@ public class ClientSubMenu {
         this.clientService = clientService;
     }
 
+    public ClientSubMenu() {
+    }
+
     private ClientDto createClient() throws IOException {
         System.out.println("Input Name of Client");
         String name = bufferedReader.readLine();
@@ -50,11 +53,11 @@ public class ClientSubMenu {
         }
     }
 
-    private ClientDto showClient(long id) throws BusinessException {
+    public ClientDto showClient(long id) throws BusinessException {
         return clientService.getById(id);
     }
 
-    private void getListOfClients() {
+    public void getListOfClients() {
         for (ClientDto clientDtoDto : clientService.findAll()) {
             System.out.println(clientDtoDto);
         }

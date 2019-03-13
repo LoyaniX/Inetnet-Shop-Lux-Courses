@@ -8,7 +8,7 @@ import com.loyanix.services.dto.OrderDto;
 import com.loyanix.services.dto.ProductDto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void create(OrderDto orderDto) {
-        orderDto.setDateOfCreate(new Date());
+        orderDto.setDateOfCreate(LocalDateTime.now());
         orderDto.setOrderPrice(calculateCost(orderDto));
         orderDao.create(orderConverter.toEntity(orderDto));
     }
@@ -36,8 +36,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(OrderDto orderDto) {
-        orderDto.setDateOfCreate(new Date());
-        orderDao.update(orderDto.getId(), orderConverter.toEntity(orderDto));
+        orderDto.setDateOfCreate(LocalDateTime.now());
+        orderDao.update(orderConverter.toEntity(orderDto));
     }
 
     @Override

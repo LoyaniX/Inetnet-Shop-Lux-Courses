@@ -10,7 +10,7 @@ public interface OrderDao {
 
     Order getById(Long id);
 
-    void update(Long id, Order order);
+    void update(Order order);
 
     void delete(Long id);
 

@@ -1,7 +1,7 @@
 package com.loyanix.domain;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
@@ -10,9 +10,9 @@ public class Order {
     private Client client;
     private List<Product> products;
     private BigDecimal orderPrice;
-    private Date dateOfCreate;
+    private LocalDateTime dateOfCreate;
 
-    public Order(Long id, Client client, List<Product> products, BigDecimal orderPrice, Date dateOfCreate) {
+    public Order(Long id, Client client, List<Product> products, BigDecimal orderPrice, LocalDateTime dateOfCreate) {
         this.id = id;
         this.client = client;
         this.products = products;
@@ -52,11 +52,11 @@ public class Order {
         this.orderPrice = orderPrice;
     }
 
-    public Date getDateOfCreate() {
+    public LocalDateTime getDateOfCreate() {
         return dateOfCreate;
     }
 
-    public void setDateOfCreate(Date dateOfCreate) {
+    public void setDateOfCreate(LocalDateTime dateOfCreate) {
         this.dateOfCreate = dateOfCreate;
     }
 
